@@ -161,6 +161,7 @@
       <DependentUpon>ShopBadmintonModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DAOs\MongoConnection.cs" />
+    <Compile Include="DAOs\SanPhamDAO_Mongo.cs" />
     <Compile Include="Form4.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -243,6 +244,18 @@
     <Compile Include="LoaiKhachHang.cs">
       <DependentUpon>ShopBadmintonModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\HoaDonDichVu.cs" />
+    <Compile Include="Model\HoaDonSanPham.cs" />
+    <Compile Include="Model\KhachHang.cs" />
+    <Compile Include="Model\KhuyenMai.cs" />
+    <Compile Include="Model\LoaiKhachHang.cs" />
+    <Compile Include="Model\NhanVien.cs" />
+    <Compile Include="Model\PhieuNhanHang.cs" />
+    <Compile Include="Model\PhieuNhapHang.cs" />
+    <Compile Include="Model\SanPham.cs" />
+    <Compile Include="Model\SanPhamHoaDon.cs" />
+    <Compile Include="Model\SanPhamPhieuNhan.cs" />
+    <Compile Include="Model\SanPhamPhieuNhap.cs" />
     <Compile Include="NhanVien.cs">
       <DependentUpon>ShopBadmintonModel.tt</DependentUpon>
     </Compile>

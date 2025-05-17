@@ -23,7 +23,7 @@ namespace FinalProject_IS
 
         public void LoadSP()    
         {
-            dtgvKhoSP.DataSource = SanPhamDAO.DSSanPham();
+            dtgvKhoSP.DataSource = SanPhamDAO_Mongo.DSSanPham();
         }
     }
 }
