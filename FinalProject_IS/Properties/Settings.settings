@@ -5,5 +5,8 @@
     <Setting Name="conStr" Type="System.String" Scope="User">
       <Value Profile="(Default)">Server=(LocalDB)\MSSQLLocalDB;Database=ShopBadminton;Integrated Security=True;</Value>
     </Setting>
+    <Setting Name="mongoConStr" Type="System.String" Scope="User">
+      <Value Profile="(Default)">mongodb://localhost:27017</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -34,5 +34,17 @@ namespace FinalProject_IS.Properties {
                 this["conStr"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("mongodb://localhost:27017")]
+        public string mongoConStr {
+            get {
+                return ((string)(this["mongoConStr"]));
+            }
+            set {
+                this["mongoConStr"] = value;
+            }
+        }
     }
 }
