@@ -24,7 +24,7 @@ public partial class SanPham
 
     public string LoaiSP { get; set; }
 
-    public decimal GiaBan { get; set; }
+    public double GiaBan { get; set; }
 
     public Nullable<int> SoLuongTon { get; set; }
 
@@ -34,7 +34,7 @@ public partial class SanPham
 
     public Nullable<int> MaTH { get; set; }
 
-    public decimal GiaGoc { get; set; }
+    public double GiaGoc { get; set; }
 
     public string MoTa { get; set; }
 

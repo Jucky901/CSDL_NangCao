@@ -32,11 +32,11 @@ namespace FinalProject_IS.DAOs
                         MaSP = Convert.ToInt32(row["MaSP"]),
                         TenSP = row["TenSP"].ToString(),
                         LoaiSP = row["LoaiSP"].ToString(),
-                        GiaBan = Convert.ToDecimal(row["GiaBan"]),
+                        GiaBan = Convert.ToDouble(row["GiaBan"]),
                         SoLuongTon = Convert.ToInt32(row["SoLuongTon"]),
                         NgayNhapKho = Convert.ToDateTime(row["NgayNhapKho"]),
                         ThoiGianBaoHanh = row["ThoiGianBaoHanh"] != DBNull.Value ? Convert.ToInt32(row["ThoiGianBaoHanh"]) : (int?)null,
-                        GiaGoc = Convert.ToDecimal(row["GiaGoc"]),
+                        GiaGoc = Convert.ToDouble(row["GiaGoc"]),
                         MoTa = row["MoTa"].ToString()
                     };
                     dsSanPham.Add(sp);
@@ -98,12 +98,12 @@ namespace FinalProject_IS.DAOs
                             product.MaSP = reader.GetInt32(reader.GetOrdinal("MaSP"));
                             product.TenSP = reader.GetString(reader.GetOrdinal("TenSP"));
                             product.LoaiSP = reader.GetString(reader.GetOrdinal("LoaiSP"));
-                            product.GiaBan = reader.GetDecimal(reader.GetOrdinal("GiaBan"));
+                            product.GiaBan = reader.GetDouble(reader.GetOrdinal("GiaBan"));
                             product.SoLuongTon = reader.GetInt32(reader.GetOrdinal("SoLuongTon"));
                             product.NgayNhapKho = reader.GetDateTime(reader.GetOrdinal("NgayNhapKho"));
                             product.ThoiGianBaoHanh = reader.GetInt32(reader.GetOrdinal("ThoiGianBaoHanh"));
                             product.MaTH = reader.GetInt32(reader.GetOrdinal("MaTH"));
-                            product.GiaGoc = reader.GetDecimal(reader.GetOrdinal("GiaGoc"));
+                            product.GiaGoc = reader.GetDouble(reader.GetOrdinal("GiaGoc"));
                             product.MoTa = reader.GetString(reader.GetOrdinal("MoTa"));
                             return product;
                         }
@@ -137,12 +137,12 @@ namespace FinalProject_IS.DAOs
                                 MaSP = Convert.ToInt32(reader["MaSP"]),
                                 TenSP = reader["TenSP"].ToString(),
                                 LoaiSP = reader["LoaiSP"].ToString(),
-                                GiaBan = Convert.ToDecimal(reader["GiaBan"]),
+                                GiaBan = Convert.ToDouble(reader["GiaBan"]),
                                 SoLuongTon = reader["SoLuongTon"] as int?,
                                 NgayNhapKho = Convert.ToDateTime(reader["NgayNhapKho"]),
                                 ThoiGianBaoHanh = reader["ThoiGianBaoHanh"] as int?,
                                 MaTH = reader["MaTH"] as int?,
-                                GiaGoc = Convert.ToDecimal(reader["GiaGoc"]),
+                                GiaGoc = Convert.ToDouble(reader["GiaGoc"]),
                                 MoTa = reader["MoTa"].ToString()
                             };
                         }
