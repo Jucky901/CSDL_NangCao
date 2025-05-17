@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="13c93b8ce00e40f884dfda3e39129093" Name="Diagram1" ZoomLevel="81">
+        <EntityTypeShape EntityType="ShopBadmintonModel.ChiTiet_HoaDonDichVu" Width="1.5" PointX="6.25" PointY="17" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopBadmintonModel.ChiTietHD_SanPham" Width="1.5" PointX="5.25" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopBadmintonModel.ChiTietPhieuNhan" Width="1.5" PointX="8.25" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopBadmintonModel.ChiTietPhieuNhapHang" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopBadmintonModel.ChucVu" Width="1.5" PointX="1.5" PointY="24.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopBadmintonModel.HoaDon" Width="1.5" PointX="3" PointY="12.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopBadmintonModel.HoaDonDichVu" Width="1.5" PointX="4" PointY="16.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopBadmintonModel.HoaDonLuong" Width="1.5" PointX="3" PointY="21.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopBadmintonModel.KhachHang" Width="1.5" PointX="0.75" PointY="9.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopBadmintonModel.KhuyenMai" Width="1.5" PointX="0.75" PointY="12.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopBadmintonModel.LoaiKhachHang" Width="1.5" PointX="1.5" PointY="16.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopBadmintonModel.NhanVien" Width="1.5" PointX="0.75" PointY="19.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopBadmintonModel.PhieuNhan" Width="1.5" PointX="6" PointY="8.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopBadmintonModel.PhieuNhapHang" Width="1.5" PointX="3" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopBadmintonModel.SanPham" Width="1.5" PointX="3" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopBadmintonModel.sysdiagram" Width="1.5" PointX="13.625" PointY="0.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopBadmintonModel.ThuongHieu" Width="1.5" PointX="0.75" PointY="5.375" IsExpanded="true" />
+        <AssociationConnector Association="ShopBadmintonModel.FK__ChiTiet_H__MaHDD__160F4887" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopBadmintonModel.FK__ChiTietHD___MaHD__7B5B524B" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopBadmintonModel.FK__ChiTietHD___MaSP__7C4F7684" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopBadmintonModel.FK__ChiTietPh__MaPhi__6383C8BA" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopBadmintonModel.FK__ChiTietPhi__MaSP__6477ECF3" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopBadmintonModel.FK__ChiTietPh__MaPhi__5DCAEF64" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopBadmintonModel.FK__ChiTietPhi__MaSP__5EBF139D" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopBadmintonModel.FK__NhanVien__MaChuc__3F466844" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopBadmintonModel.FK__HoaDon__MaKH__74AE54BC" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopBadmintonModel.FK__HoaDon__MaKM__76969D2E" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopBadmintonModel.FK__HoaDon__MaNV__75A278F5" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopBadmintonModel.FK__HoaDonDich__MaKH__5535A963" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopBadmintonModel.FK__HoaDonDich__MaNV__5629CD9C" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopBadmintonModel.FK__HoaDonLuon__MaNV__59063A47" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopBadmintonModel.FK__KhachHang__MaLoa__3A81B327" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopBadmintonModel.FK__SanPham__MaTH__44FF419A" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
