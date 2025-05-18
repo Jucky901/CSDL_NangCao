@@ -32,7 +32,7 @@ namespace FinalProject_IS
 
         private void LoadBang(int id)
         {
-            dtgv_ChiTiet.DataSource = PhieuNhanDAO.GetChiTietByID(id);
+            dtgv_ChiTiet.DataSource = PhieuNhanHangDAO_Mongo.GetPhieuNhanById(id);
         }
     }
 }

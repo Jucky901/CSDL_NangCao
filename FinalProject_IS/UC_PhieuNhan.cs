@@ -23,7 +23,7 @@ namespace FinalProject_IS
 
         public void LoadDsPhieuNhan()
         {
-            dtgvPhieuNhan.DataSource = PhieuNhanDAO.DSPhieuNhan();
+            dtgvPhieuNhan.DataSource = PhieuNhanHangDAO_Mongo.DSPhieuNhan();
             DataGridViewButtonColumn btnColumn = new DataGridViewButtonColumn();
             btnColumn.Name = "Action";
             btnColumn.HeaderText = "Action";
@@ -31,19 +31,16 @@ namespace FinalProject_IS
             btnColumn.UseColumnTextForButtonValue = true;
 
             dtgvPhieuNhan.Columns.Add(btnColumn);
+            if (dtgvPhieuNhan.Columns["Id"] != null)
+            {
+                dtgvPhieuNhan.Columns["Id"].Visible = false;
+            }
         }
 
         private void btn_Search_Click(object sender, EventArgs e)
         {
-            dtgvPhieuNhan.DataSource = PhieuNhanDAO.DSPhieuNhanTheoMa(rtxb_SearchBox.Text);
+            //dtgvPhieuNhan.DataSource = PhieuNhanDAO.DSPhieuNhanTheoMa(rtxb_SearchBox.Text);
         }
-
-        //private void btn_ThemPhieu_Click(object sender, EventArgs e)
-        //{
-        //    int ID = PhieuNhapHangDAO.GetNewPhieuNhapID();
-        //    Form2 phieu = new Form2(ID);
-        //    phieu.Show();
-        //}
 
         private void btnFilter_Click(object sender, EventArgs e)
         {
@@ -53,34 +50,34 @@ namespace FinalProject_IS
 
         private void cb_Box_Filter_SelectedIndexChanged(object sender, EventArgs e)
         {
-            String values = cb_Box_Filter.Text;
-            String nameColum = string.Empty; ;
-            if (values == "Sắp xếp theo ngày")
-            {
-                nameColum = "NgayTao";
-            }
-            else if (values == "Sắp xếp theo mã")
-            {
-                nameColum = "MaPhieuNhan";
-            }
-            try
-            {
-                dtgvPhieuNhan.DataSource = PhieuNhanDAO.DSSapXepPhieuNhan(nameColum, isAscending);
-                // Thông báo sau khi sắp xếp
-                string sortOrder = isAscending ? "tăng dần" : "giảm dần";
-                MessageBox.Show($"Đã sắp xếp theo {sortOrder} theo cột {nameColum}.");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Đã xảy ra lỗi: {ex.Message}");
-            }
+            //String values = cb_Box_Filter.Text;
+            //String nameColum = string.Empty; ;
+            //if (values == "Sắp xếp theo ngày")
+            //{
+            //    nameColum = "NgayTao";
+            //}
+            //else if (values == "Sắp xếp theo mã")
+            //{
+            //    nameColum = "MaPhieuNhan";
+            //}
+            //try
+            //{
+            //    dtgvPhieuNhan.DataSource = PhieuNhanDAO.DSSapXepPhieuNhan(nameColum, isAscending);
+            //    // Thông báo sau khi sắp xếp
+            //    string sortOrder = isAscending ? "tăng dần" : "giảm dần";
+            //    MessageBox.Show($"Đã sắp xếp theo {sortOrder} theo cột {nameColum}.");
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show($"Đã xảy ra lỗi: {ex.Message}");
+            //}
 
         }
 
         private void btn_ThemPhieu_Click(object sender, EventArgs e)
         {
-            int id = PhieuNhanDAO.GetNewPhieuNhanID();
-            Form3 form = new Form3(id);
+            //int id = PhieuNhanDAO.GetNewPhieuNhanID();
+            F_ThemPhieuNhanHang form = new F_ThemPhieuNhanHang(0);
             form.Show();
         }
 

@@ -21,7 +21,7 @@ namespace FinalProject_IS
 
         public void LoadDsPhieuNhapHang()
         {
-            dtgvPhieuNhap.DataSource = PhieuNhapHangDAO.DSPhieuNhapHang();
+            dtgvPhieuNhap.DataSource = PhieuNhapHangDAO_Mongo.DSPhieuNhap();
             DataGridViewButtonColumn btnColumn = new DataGridViewButtonColumn();
             btnColumn.Name = "Action";               
             btnColumn.HeaderText = "Action";         
@@ -29,19 +29,22 @@ namespace FinalProject_IS
             btnColumn.UseColumnTextForButtonValue = true; 
 
             dtgvPhieuNhap.Columns.Add(btnColumn);
+            if (dtgvPhieuNhap.Columns["Id"] != null)
+            {
+                dtgvPhieuNhap.Columns["Id"].Visible = false;
+            }
 
         }
 
         private void btn_ThemPhieu_Click(object sender, EventArgs e)
         {
-            int ID = PhieuNhapHangDAO.GetNewPhieuNhapID();
-            Form2 phieu = new Form2(ID);
+            F_ThemPhieuNhapHang phieu = new F_ThemPhieuNhapHang();
             phieu.Show();
         }
 
         private void btn_Search_Click(object sender, EventArgs e)
         {
-            dtgvPhieuNhap.DataSource = PhieuNhapHangDAO.DSPhieuNhapHangTheoMa(rtxb_SearchBox.Text);
+            //dtgvPhieuNhap.DataSource = PhieuNhapHangDAO.DSPhieuNhapHangTheoMa(rtxb_SearchBox.Text);
         }
 
         private void dtgvPhieuNhap_CellContentClick(object sender, DataGridViewCellEventArgs e)

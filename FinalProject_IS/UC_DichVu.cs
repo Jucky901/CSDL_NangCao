@@ -21,7 +21,11 @@ namespace FinalProject_IS
 
         public void LoadDsHoaDonDichVu()
         {
-            dtgvDichVu.DataSource = DichVuDAO.DSDichVu();
+            dtgvDichVu.DataSource = HoaDonDichVuDAO_Mongo.DSHoaDonDichVu();
+            if (dtgvDichVu.Columns["Id"] != null)
+            {
+                dtgvDichVu.Columns["Id"].Visible = false;
+            }
         }
     }
 }

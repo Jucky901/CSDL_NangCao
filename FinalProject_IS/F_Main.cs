@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace FinalProject_IS
 {
-    public partial class Form1 : Form
+    public partial class F_Main : Form
     {
         //private bool isBanHang = false;
         //private bool isDoanhThu = false;
@@ -24,7 +24,7 @@ namespace FinalProject_IS
         //private bool isDichVu = false;
         public UC_BanHang ucBanHang;
 
-        public Form1()
+        public F_Main()
         {
             InitializeComponent();
         }
@@ -109,21 +109,21 @@ namespace FinalProject_IS
 
         private void btn_ThemPhieuDanVot_Click(object sender, EventArgs e)
         {
-            // Truy cập vào UC_BanHang để lấy các dòng được chọn
-            List<string[]> danhSachDongDuocChon = ucBanHang.LayDanhSachTenVaGiaSanPham();
-            string tenNV = ucBanHang.TenNV;
-            string sdt = ucBanHang.SDTKH;
-            string hoTen = ucBanHang.HoTenKH;
+            //// Truy cập vào UC_BanHang để lấy các dòng được chọn
+            //List<string[]> danhSachDongDuocChon = ucBanHang.LayDanhSachTenVaGiaSanPham();
+            //string tenNV = ucBanHang.TenNV;
+            //string sdt = ucBanHang.SDTKH;
+            //string hoTen = ucBanHang.HoTenKH;
 
-            // Kiểm tra nếu chưa chọn dòng nào
-            if (danhSachDongDuocChon.Count == 0)
-            {
-                MessageBox.Show("Vui lòng chọn ít nhất một dòng!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-            // Mở form Phiếu và truyền dữ liệu đã chọn
-            FormHoaDonDichVu formPhieu = new FormHoaDonDichVu(tenNV, sdt,hoTen, danhSachDongDuocChon);
-            formPhieu.Show();
+            //// Kiểm tra nếu chưa chọn dòng nào
+            //if (danhSachDongDuocChon.Count == 0)
+            //{
+            //    MessageBox.Show("Vui lòng chọn ít nhất một dòng!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            //    return;
+            //}
+            //// Mở form Phiếu và truyền dữ liệu đã chọn
+            //FormHoaDonDichVu formPhieu = new FormHoaDonDichVu(tenNV, sdt,hoTen, danhSachDongDuocChon);
+            //formPhieu.Show();
         }
 }
 }

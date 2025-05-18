@@ -100,7 +100,7 @@
             // dtgvKhoSP
             // 
             this.dtgvKhoSP.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dtgvKhoSP.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            this.dtgvKhoSP.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedHeaders;
             this.dtgvKhoSP.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dtgvKhoSP.Location = new System.Drawing.Point(34, 127);
             this.dtgvKhoSP.Name = "dtgvKhoSP";

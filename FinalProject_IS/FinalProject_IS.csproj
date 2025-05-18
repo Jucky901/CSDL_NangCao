@@ -151,22 +151,22 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ChiTietHD_SanPham.cs">
-      <DependentUpon>ShopBadmintonModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="ChiTietPhieuNhan.cs">
-      <DependentUpon>ShopBadmintonModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="ChiTiet_HoaDonDichVu.cs">
-      <DependentUpon>ShopBadmintonModel.tt</DependentUpon>
-    </Compile>
+    <Compile Include="DAOs\HoaDonDichVuDAO_Mongo.cs" />
+    <Compile Include="DAOs\HoaDonSanPhamDAO_Mongo.cs" />
+    <Compile Include="DAOs\KhachHangDAO_Mongo.cs" />
+    <Compile Include="DAOs\KhuyenMaiDAO_Mongo.cs" />
     <Compile Include="DAOs\MongoConnection.cs" />
+    <Compile Include="DAOs\NhanVienDAO_Mongo.cs" />
+    <Compile Include="DAOs\PhieuNhanHangDAO_Mongo.cs" />
+    <Compile Include="DAOs\PhieuNhapHangDAO_Mongo.cs" />
     <Compile Include="DAOs\SanPhamDAO_Mongo.cs" />
-    <Compile Include="Form4.cs">
+    <Compile Include="DAOs\SanPhamPhieuNhanDAO_Mongo.cs" />
+    <Compile Include="DAOs\SequenceDAO.cs" />
+    <Compile Include="F_TaoKhuyenMai.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form4.Designer.cs">
-      <DependentUpon>Form4.cs</DependentUpon>
+    <Compile Include="F_TaoKhuyenMai.Designer.cs">
+      <DependentUpon>F_TaoKhuyenMai.cs</DependentUpon>
     </Compile>
     <Compile Include="F_ChiTietHD_SanPham.cs">
       <SubType>Form</SubType>
@@ -186,12 +186,6 @@
     <Compile Include="F_ChiTietPhieuNhap.Designer.cs">
       <DependentUpon>F_ChiTietPhieuNhap.cs</DependentUpon>
     </Compile>
-    <Compile Include="ChiTietPhieuNhapHang.cs">
-      <DependentUpon>ShopBadmintonModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="ChucVu.cs">
-      <DependentUpon>ShopBadmintonModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="DAOs\DataProvider.cs" />
     <Compile Include="DAOs\DichVuDAO.cs" />
     <Compile Include="DAOs\KhuyenMaiDAO.cs" />
@@ -202,47 +196,29 @@
     <Compile Include="DAOs\KhachHangDAO.cs" />
     <Compile Include="DAOs\SanPhamDAO.cs" />
     <Compile Include="DAOs\ThuongHieuDAO.cs" />
-    <Compile Include="Form1.cs">
+    <Compile Include="F_Main.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="F_Main.Designer.cs">
+      <DependentUpon>F_Main.cs</DependentUpon>
     </Compile>
-    <Compile Include="Form2.cs">
+    <Compile Include="F_ThemPhieuNhapHang.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form2.Designer.cs">
-      <DependentUpon>Form2.cs</DependentUpon>
+    <Compile Include="F_ThemPhieuNhapHang.Designer.cs">
+      <DependentUpon>F_ThemPhieuNhapHang.cs</DependentUpon>
     </Compile>
-    <Compile Include="Form3.cs">
+    <Compile Include="F_ThemPhieuNhanHang.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form3.Designer.cs">
-      <DependentUpon>Form3.cs</DependentUpon>
+    <Compile Include="F_ThemPhieuNhanHang.Designer.cs">
+      <DependentUpon>F_ThemPhieuNhanHang.cs</DependentUpon>
     </Compile>
     <Compile Include="FormHoaDonDichVu.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FormHoaDonDichVu.Designer.cs">
       <DependentUpon>FormHoaDonDichVu.cs</DependentUpon>
-    </Compile>
-    <Compile Include="HoaDon.cs">
-      <DependentUpon>ShopBadmintonModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="HoaDonDichVu.cs">
-      <DependentUpon>ShopBadmintonModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="HoaDonLuong.cs">
-      <DependentUpon>ShopBadmintonModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="KhachHang.cs">
-      <DependentUpon>ShopBadmintonModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="KhuyenMai.cs">
-      <DependentUpon>ShopBadmintonModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="LoaiKhachHang.cs">
-      <DependentUpon>ShopBadmintonModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\HoaDonDichVu.cs" />
     <Compile Include="Model\HoaDonSanPham.cs" />
@@ -256,41 +232,8 @@
     <Compile Include="Model\SanPhamHoaDon.cs" />
     <Compile Include="Model\SanPhamPhieuNhan.cs" />
     <Compile Include="Model\SanPhamPhieuNhap.cs" />
-    <Compile Include="NhanVien.cs">
-      <DependentUpon>ShopBadmintonModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="PhieuNhan.cs">
-      <DependentUpon>ShopBadmintonModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="PhieuNhapHang.cs">
-      <DependentUpon>ShopBadmintonModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SanPham.cs">
-      <DependentUpon>ShopBadmintonModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="ShopBadmintonModel.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ShopBadmintonModel.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="ShopBadmintonModel.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ShopBadmintonModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="ShopBadmintonModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ShopBadmintonModel.edmx</DependentUpon>
-    </Compile>
-    <Compile Include="sysdiagram.cs">
-      <DependentUpon>ShopBadmintonModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="ThuongHieu.cs">
-      <DependentUpon>ShopBadmintonModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="UC_BanHang.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -351,8 +294,8 @@
     <Compile Include="UC_PhieuNhap.Designer.cs">
       <DependentUpon>UC_PhieuNhap.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="Form4.resx">
-      <DependentUpon>Form4.cs</DependentUpon>
+    <EmbeddedResource Include="F_TaoKhuyenMai.resx">
+      <DependentUpon>F_TaoKhuyenMai.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="F_ChiTietHD_SanPham.resx">
       <DependentUpon>F_ChiTietHD_SanPham.cs</DependentUpon>
@@ -363,11 +306,11 @@
     <EmbeddedResource Include="F_ChiTietPhieuNhap.resx">
       <DependentUpon>F_ChiTietPhieuNhap.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <EmbeddedResource Include="F_Main.resx">
+      <DependentUpon>F_Main.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Form2.resx">
-      <DependentUpon>Form2.cs</DependentUpon>
+    <EmbeddedResource Include="F_ThemPhieuNhapHang.resx">
+      <DependentUpon>F_ThemPhieuNhapHang.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormHoaDonDichVu.resx">
       <DependentUpon>FormHoaDonDichVu.cs</DependentUpon>
@@ -422,28 +365,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <EntityDeploy Include="ShopBadmintonModel.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>ShopBadmintonModel.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <None Include="ShopBadmintonModel.edmx.diagram">
-      <DependentUpon>ShopBadmintonModel.edmx</DependentUpon>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="ShopBadmintonModel.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>ShopBadmintonModel.Context.cs</LastGenOutput>
-      <DependentUpon>ShopBadmintonModel.edmx</DependentUpon>
-    </Content>
-    <Content Include="ShopBadmintonModel.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>ShopBadmintonModel.edmx</DependentUpon>
-      <LastGenOutput>ShopBadmintonModel.cs</LastGenOutput>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

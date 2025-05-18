@@ -8,16 +8,15 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using FinalProject_IS.DAOs;
+using FinalProject_IS.Model;
 
 namespace FinalProject_IS
 {
-    public partial class Form2 : Form
+    public partial class F_ThemPhieuNhapHang : Form
     {
-        private int maphieu;
-        public Form2(int maphieu)
+        public F_ThemPhieuNhapHang()
         {
             InitializeComponent();
-            this.maphieu = maphieu;
             
         }
 
@@ -25,45 +24,39 @@ namespace FinalProject_IS
         {
             try
             {
-                List<ChiTietPhieuNhapHang> list = new List<ChiTietPhieuNhapHang>();
+                List<SanPhamPhieuNhap> sanPhamList = new List<SanPhamPhieuNhap>();
+                DateTime ngaytao = DateTime.UtcNow;
                 foreach (DataGridViewRow row in dtgv_ChiTiet.Rows)
                 {
                     if (row.IsNewRow) continue;
-
-                    ChiTietPhieuNhapHang chitiet = new ChiTietPhieuNhapHang();
-                    chitiet.MaPhieuNhap = this.maphieu;
-                    chitiet.MaSP = Convert.ToInt32(row.Cells["MaSP"].Value);
-                    chitiet.TenSP = row.Cells["TenSP"].Value?.ToString();
-                    chitiet.SoLuongNhap = Convert.ToInt32(row.Cells["SoLuongNhap"].Value);
-                    list.Add(chitiet);
+                    SanPhamPhieuNhap phieu = new SanPhamPhieuNhap
+                    {
+                        MaSP = Convert.ToInt32(row.Cells["MaSP"].Value),
+                        TenSP = row.Cells["TenSP"].Value?.ToString(),
+                        SoLuongNhap = Convert.ToInt32(row.Cells["SoLuongNhap"].Value),
+                        SoLuongThieu = Convert.ToInt32(row.Cells["SoLuongNhap"].Value),
+                    };
+                    sanPhamList.Add(phieu);
                 }
-
-                if (list.Count >= 1)
+                PhieuNhapHang newPhieuNhap = new PhieuNhapHang
                 {
-                    PhieuNhapHangDAO.InsertPhieu(new PhieuNhapHang
-                    {
-                        NgayTao = DateTime.Now,
-                        TinhTrangPhieuNhap = "Dang cho"
-                    });
-
-                    for (int i = 0; i < list.Count; i++)
-                    {
-                        PhieuNhapHangDAO.InsertChiTietPhieu(list[i]);
-                    }
-                    this.Close();
-                }
+                    NgayTao = ngaytao,
+                    SanPham = sanPhamList
+                };
+                PhieuNhapHangDAO_Mongo.InsertPhieuNhap(newPhieuNhap);
+                MessageBox.Show("Phiếu Nhập Hàng đã được thêm thành công.");
+                this.Close();
             }
-            catch
+            catch (Exception ex)
             {
-                MessageBox.Show("You got StickBug");
-            }
-            
+                MessageBox.Show($"Lỗi khi thêm phiếu nhập: {ex.Message}");
 
+
+            }
         }
 
         private void dtgv_ChiTiet_DefaultValuesNeeded(object sender, DataGridViewRowEventArgs e)
         {
-            e.Row.Cells["MaPhieuNhap"].Value = this.maphieu;
         }
 
         private void btn_HuyPhieu_Click(object sender, EventArgs e)
@@ -90,7 +83,7 @@ namespace FinalProject_IS
             {
                 DataGridViewCell thirdCell = dtgv_ChiTiet[2, e.RowIndex];
                 int id = Convert.ToInt32(dtgv_ChiTiet[e.ColumnIndex, e.RowIndex].Value);
-                thirdCell.Value = SanPhamDAO.GetProductNameByID(id);
+                thirdCell.Value = SanPhamDAO_Mongo.GetProductByID(id).TenSP;
             }
         }
     }

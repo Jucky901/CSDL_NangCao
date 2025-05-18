@@ -8,74 +8,57 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using FinalProject_IS.DAOs;
+using FinalProject_IS.Model;
 
 namespace FinalProject_IS
 {
-    public partial class Form3 : Form
+    public partial class F_ThemPhieuNhanHang : Form
     {
-        private int maphieu;
-        public Form3(int maphieu)
+        public F_ThemPhieuNhanHang(int maphieu)
         {
             InitializeComponent();
-            this.maphieu = maphieu;
         }
 
         private void btn_ThemPhieu_Click(object sender, EventArgs e)
         {
             try
             {
-                List<ChiTietPhieuNhan> list = new List<ChiTietPhieuNhan>();
+                List<SanPhamPhieuNhan> sanPhamList = new List<SanPhamPhieuNhan>();
+                DateTime ngayNhan = DateTime.UtcNow;
+
                 foreach (DataGridViewRow row in dtgv_ChiTiet.Rows)
                 {
                     if (row.IsNewRow) continue;
 
-
-                    ChiTietPhieuNhan chitiet = new ChiTietPhieuNhan
+                    SanPhamPhieuNhan phieu = new SanPhamPhieuNhan
                     {
-                        
-                        MaPhieuNhan = this.maphieu,
                         MaSP = Convert.ToInt32(row.Cells["MaSP"].Value),
                         TenSP = row.Cells["TenSP"].Value?.ToString(),
-                        LoaiSP = row.Cells["LoaiSP"].Value?.ToString(),
                         SoLuongNhap = Convert.ToInt32(row.Cells["SoLuongNhap"].Value),
-                        DonGiaNhap = decimal.Parse(row.Cells["DonGiaNhap"].Value.ToString()),
+                        DonGiaNhap = double.Parse(row.Cells["DonGiaNhap"].Value.ToString()),
                         ThuongHieu = row.Cells["ThuongHieu"].Value?.ToString(),
                         ThoiGianBaoHanh = Convert.ToInt32(row.Cells["ThoiGianBaoHanh"].Value),
                         MoTa = row.Cells["MoTa"].Value?.ToString(),
-                        TongTien = decimal.Parse(row.Cells["TongTien"].Value.ToString()),
-                        NgayNhan = DateTime.Parse(row.Cells["NgayNhan"].Value.ToString())
+                        TongTien = double.Parse(row.Cells["TongTien"].Value.ToString())
                     };
 
-                    list.Add(chitiet);
+                    sanPhamList.Add(phieu);
                 }
 
-                if (list.Count >= 1)
+                PhieuNhanHang newPhieuNhan = new PhieuNhanHang
                 {
+                    NgayNhan = ngayNhan,
+                    SanPham = sanPhamList
+                };
 
-                    PhieuNhanDAO.InsertPhieu(new PhieuNhan
-                    {
-                        NgayTao = list[0].NgayNhan,
-                    });
+                PhieuNhanHangDAO_Mongo.InsertPhieuNhan(newPhieuNhan);
 
-                    for (int i = 0; i < list.Count; i++)
-                    {
-                        PhieuNhanDAO.InsertChiTietPhieu(list[i]);
-                    }
-
-                    for (int i = 0; i < list.Count; i++)
-                    {
-                        PhieuNhapHangDAO.UpdateChiTietPhieuNhapHang(list[i].MaSP, list[i].SoLuongNhap);
-                        SanPhamDAO.UpdateSanPhamNhan(list[i].MaSP, list[i].SoLuongNhap);
-                    }
-
-                    PhieuNhapHangDAO.UpdateTinhTrangPhieuNhap();
-                    this.Close();
-                }
+                MessageBox.Show("Phiếu Nhận Hàng đã được thêm thành công.");
+                this.Close();
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString());
-                
+                MessageBox.Show($"Lỗi khi thêm phiếu nhận: {ex.Message}");
             }
         }
 
@@ -86,7 +69,6 @@ namespace FinalProject_IS
 
         private void dtgv_ChiTiet_DefaultValuesNeeded(object sender, DataGridViewRowEventArgs e)
         {
-            e.Row.Cells["MaPhieuNhan"].Value = this.maphieu;
             e.Row.Cells["NgayNhan"].Value = DateTime.Now.ToString("yyyy-MM-dd");
         }
 
@@ -95,17 +77,17 @@ namespace FinalProject_IS
             if (e.ColumnIndex == 2)
             {
                 int id = Convert.ToInt32(dtgv_ChiTiet[2, e.RowIndex].Value);
-                SanPham prod = SanPhamDAO.GetProductByID(id);
+                SanPham prod = SanPhamDAO_Mongo.GetProductByID(id);
                 dtgv_ChiTiet[3, e.RowIndex].Value = prod.TenSP;
                 dtgv_ChiTiet[4, e.RowIndex].Value = prod.LoaiSP;
                 dtgv_ChiTiet[6, e.RowIndex].Value = prod.GiaGoc.ToString();
-                dtgv_ChiTiet[7, e.RowIndex].Value = ThuongHieuDAO.GetTenThuongHieuByID(prod.MaTH);
+                dtgv_ChiTiet[7, e.RowIndex].Value = prod.ThuongHieu;
                 dtgv_ChiTiet[8, e.RowIndex].Value = prod.ThoiGianBaoHanh.ToString();
                 dtgv_ChiTiet[9, e.RowIndex].Value = prod.MoTa;
             }
             if (e.ColumnIndex == 5)
             {
-                dtgv_ChiTiet[10, e.RowIndex].Value = 
+                dtgv_ChiTiet[10, e.RowIndex].Value =
                     (Convert.ToInt32(dtgv_ChiTiet[5, e.RowIndex].Value) * Convert.ToDecimal(dtgv_ChiTiet[6, e.RowIndex].Value)).ToString();
             }
         }
