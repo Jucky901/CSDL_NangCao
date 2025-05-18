@@ -78,7 +78,6 @@
             this.btnDoanhThu.TabIndex = 24;
             this.btnDoanhThu.Text = "DoanhThu";
             this.btnDoanhThu.UseVisualStyleBackColor = true;
-            this.btnDoanhThu.Click += new System.EventHandler(this.btnDoanhThu_Click);
             // 
             // btnLoiNhuan
             // 
@@ -88,7 +87,6 @@
             this.btnLoiNhuan.TabIndex = 23;
             this.btnLoiNhuan.Text = "Lợi Nhuận";
             this.btnLoiNhuan.UseVisualStyleBackColor = true;
-            this.btnLoiNhuan.Click += new System.EventHandler(this.btnLoiNhuan_Click);
             // 
             // lb_TopSanPham
             // 
@@ -134,7 +132,6 @@
             this.dtpYear.Name = "dtpYear";
             this.dtpYear.Size = new System.Drawing.Size(200, 22);
             this.dtpYear.TabIndex = 42;
-            this.dtpYear.ValueChanged += new System.EventHandler(this.dtpYear_ValueChanged);
             // 
             // dtpMonth
             // 
@@ -144,7 +141,6 @@
             this.dtpMonth.Name = "dtpMonth";
             this.dtpMonth.Size = new System.Drawing.Size(200, 22);
             this.dtpMonth.TabIndex = 41;
-            this.dtpMonth.ValueChanged += new System.EventHandler(this.dtpMonth_ValueChanged);
             // 
             // lbThongKeNam
             // 
@@ -243,7 +239,6 @@
             this.Controls.Add(this.label1);
             this.Name = "UC_ThongKe";
             this.Size = new System.Drawing.Size(1182, 513);
-            this.Load += new System.EventHandler(this.UC_ThongKe_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);

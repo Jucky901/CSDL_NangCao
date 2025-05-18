@@ -162,6 +162,7 @@
     <Compile Include="DAOs\SanPhamDAO_Mongo.cs" />
     <Compile Include="DAOs\SanPhamPhieuNhanDAO_Mongo.cs" />
     <Compile Include="DAOs\SequenceDAO.cs" />
+    <Compile Include="DAOs\ThongKeDAO.cs" />
     <Compile Include="F_TaoKhuyenMai.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -223,6 +224,7 @@
     <Compile Include="Model\SanPhamHoaDon.cs" />
     <Compile Include="Model\SanPhamPhieuNhan.cs" />
     <Compile Include="Model\SanPhamPhieuNhap.cs" />
+    <Compile Include="Model\ThongKe.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UC_BanHang.cs">
