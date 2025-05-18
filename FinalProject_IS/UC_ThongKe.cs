@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using FinalProject_IS.DAOs;
+using MongoDB.Bson;
+using MongoDB.Driver;
 
 namespace FinalProject_IS
 {
@@ -29,153 +31,183 @@ namespace FinalProject_IS
         {
             try
             {
-                string query = @"
-                            SELECT 
-                                DAY(Ngay) AS Ngay,
-                                SUM(DoanhThu) AS DoanhThu
-                            FROM (
-                                SELECT 
-                                    NgayGioTao AS Ngay,
-                                    TongTien AS DoanhThu
-                                FROM HoaDon
-                                WHERE MONTH(NgayGioTao) = @Month AND YEAR(NgayGioTao) = @Year
+                var hoaDonSanPhamCol = MongoConnection.Database.GetCollection<BsonDocument>("HoaDonSanPham");
 
-                                UNION ALL
+                DateTime startDate = new DateTime(year, month, 1);
+                DateTime endDate = startDate.AddMonths(1);
 
-                                SELECT 
-                                    NgayGioTao AS Ngay,
-                                    ThanhTien AS DoanhThu
-                                FROM HoaDonDichVu
-                                WHERE MONTH(NgayGioTao) = @Month AND YEAR(NgayGioTao) = @Year AND LoaiPhieu = 'DV'
-                            ) AS TongHop
-                            GROUP BY DAY(Ngay)
-                            ORDER BY Ngay";
+                // Lọc hóa đơn theo tháng
+                var filter = Builders<BsonDocument>.Filter.And(
+                    Builders<BsonDocument>.Filter.Gte("NgayGioTao", startDate),
+                    Builders<BsonDocument>.Filter.Lt("NgayGioTao", endDate)
+                );
 
-                DataTable dt = new DataTable();
+                var hoaDonDocs = hoaDonSanPhamCol.Find(filter).ToList();
 
-                using (SqlConnection conn = new SqlConnection(DataProvider.ConnStr))
+                var doanhThuTheoNgay = new Dictionary<int, decimal>();
+
+                foreach (var doc in hoaDonDocs)
                 {
-                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    if (doc.Contains("NgayGioTao") && doc.Contains("SanPham"))
                     {
-                        cmd.Parameters.AddWithValue("@Month", month);
-                        cmd.Parameters.AddWithValue("@Year", year);
+                        DateTime ngay = doc["NgayGioTao"].ToLocalTime();
+                        int day = ngay.Day;
 
-                        SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                        adapter.Fill(dt);
+                        decimal tongTien = 0;
+                        var sanPhamArray = doc["SanPham"].AsBsonArray;
+
+                        foreach (var sp in sanPhamArray)
+                        {
+                            var spDoc = sp.AsBsonDocument;
+                            int soLuong = spDoc.Contains("SoLuong") ? spDoc["SoLuong"].ToInt32() : 0;
+                            decimal donGia = spDoc.Contains("DonGia") ? spDoc["DonGia"].ToDecimal() : 0;
+                            tongTien += soLuong * donGia;
+                        }
+
+                        if (!doanhThuTheoNgay.ContainsKey(day))
+                            doanhThuTheoNgay[day] = 0;
+                        doanhThuTheoNgay[day] += tongTien;
                     }
                 }
 
+                // Hiển thị biểu đồ
                 chartDoanhThu.Series.Clear();
-                chartDoanhThu.Titles.Clear(); // Clear tiêu đề cũ
+                chartDoanhThu.Titles.Clear();
                 chartDoanhThu.Titles.Add($"Doanh thu tháng {month}/{year}");
+
                 Series series = new Series("Doanh thu theo ngày")
                 {
                     ChartType = SeriesChartType.Column,
                     IsValueShownAsLabel = true
                 };
 
-                foreach (DataRow row in dt.Rows)
+                foreach (var kvp in doanhThuTheoNgay.OrderBy(k => k.Key))
                 {
-                    int ngay = Convert.ToInt32(row["Ngay"]);
-                    decimal doanhThu = Convert.ToDecimal(row["DoanhThu"]);
-                    series.Points.AddXY(ngay + "/" + month, doanhThu);
+                    series.Points.AddXY($"{kvp.Key}/{month}", kvp.Value);
                 }
 
                 chartDoanhThu.Series.Add(series);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show("Lỗi khi tải doanh thu: " + ex.Message);
             }
+
         }
 
         private void LoadDoanhThuTheoNam(int year)
         {
-            string query = @"
-                            SELECT 
-                                MONTH(Ngay) AS Thang,
-                                SUM(DoanhThu) AS DoanhThu
-                            FROM (
-                                SELECT 
-                                    NgayGioTao AS Ngay,
-                                    TongTien AS DoanhThu
-                                FROM HoaDon
-                                WHERE YEAR(NgayGioTao) = @Year
-
-                                UNION ALL
-
-                                SELECT 
-                                    NgayGioTao AS Ngay,
-                                    ThanhTien AS DoanhThu
-                                FROM HoaDonDichVu
-                                WHERE YEAR(NgayGioTao) = @Year AND LoaiPhieu = 'DV'
-                            ) AS TongHop
-                            GROUP BY MONTH(Ngay)
-                            ORDER BY Thang";
-
-            DataTable dt = new DataTable();
-
-            using (SqlConnection conn = new SqlConnection(DataProvider.ConnStr))
+            try
             {
-                using (SqlCommand cmd = new SqlCommand(query, conn))
+                var hoaDonCol = MongoConnection.Database.GetCollection<BsonDocument>("HoaDonSanPham");
+
+                DateTime startDate = new DateTime(year, 1, 1);
+                DateTime endDate = startDate.AddYears(1);
+
+                var filter = Builders<BsonDocument>.Filter.And(
+                    Builders<BsonDocument>.Filter.Gte("NgayGioTao", startDate),
+                    Builders<BsonDocument>.Filter.Lt("NgayGioTao", endDate)
+                );
+
+                var hoaDonDocs = hoaDonCol.Find(filter).ToList();
+
+                // Dictionary lưu doanh thu theo tháng
+                var doanhThuTheoThang = new Dictionary<int, decimal>();
+
+                foreach (var doc in hoaDonDocs)
                 {
-                    cmd.Parameters.AddWithValue("@Year", year);
+                    if (doc.Contains("NgayGioTao") && doc.Contains("SanPham"))
+                    {
+                        DateTime ngay = doc["NgayGioTao"].ToLocalTime();
+                        int month = ngay.Month;
 
-                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    adapter.Fill(dt);
+                        decimal tongTien = 0;
+                        var sanPhamArray = doc["SanPham"].AsBsonArray;
+
+                        foreach (var sp in sanPhamArray)
+                        {
+                            var spDoc = sp.AsBsonDocument;
+                            int soLuong = spDoc.GetValue("SoLuong", 0).ToInt32();
+                            decimal donGia = spDoc.GetValue("DonGia", 0).ToDecimal();
+                            tongTien += soLuong * donGia;
+                        }
+
+                        if (!doanhThuTheoThang.ContainsKey(month))
+                            doanhThuTheoThang[month] = 0;
+                        doanhThuTheoThang[month] += tongTien;
+                    }
                 }
+
+                // Vẽ biểu đồ
+                chartDoanhThu.Series.Clear();
+                chartDoanhThu.Titles.Clear();
+                chartDoanhThu.Titles.Add($"Doanh thu năm {year}");
+
+                Series series = new Series("Doanh thu theo tháng")
+                {
+                    ChartType = SeriesChartType.Column,
+                    IsValueShownAsLabel = true
+                };
+
+                foreach (var kvp in doanhThuTheoThang.OrderBy(k => k.Key))
+                {
+                    series.Points.AddXY($"{kvp.Key}/{year}", kvp.Value);
+                }
+
+                chartDoanhThu.Series.Add(series);
             }
-
-            chartDoanhThu.Series.Clear();
-            chartDoanhThu.Titles.Clear(); // Clear tiêu đề cũ
-            chartDoanhThu.Titles.Add($"Doanh thu năm {year}");
-            Series series = new Series("Doanh thu theo tháng")
+            catch (Exception ex)
             {
-                ChartType = SeriesChartType.Column,
-                IsValueShownAsLabel= true
-            };
-
-            foreach (DataRow row in dt.Rows)
-            {
-                int thang = Convert.ToInt32(row["Thang"]);
-                decimal doanhThu = Convert.ToDecimal(row["DoanhThu"]);
-                series.Points.AddXY(thang + "/" + year, doanhThu);
+                MessageBox.Show("Lỗi khi tải doanh thu theo năm: " + ex.Message);
             }
-
-            chartDoanhThu.Series.Add(series);
         }
 
         private void DsBanChay()
         {
             try
             {
-                string query = @"
-                            SELECT TOP 10
-                                sp.MaSP,
-                                sp.TenSP, 
-                                SUM(ct.SoLuongSP) AS DoanhSo,
-                                SUM(ct.ThanhTien) AS DoanhThu
-                            FROM ChiTietHD_SanPham ct
-                            JOIN SanPham sp ON ct.MaSP = sp.MaSP
-                            GROUP BY sp.MaSP, sp.TenSP
-                            ORDER BY DoanhSo DESC";
+                var collection = MongoConnection.Database.GetCollection<BsonDocument>("HoaDonSanPham");
+
+                var pipeline = new[]
+                {
+                    new BsonDocument("$unwind", "$SanPham"),
+                    new BsonDocument("$group", new BsonDocument
+                    {
+                        { "_id", new BsonDocument {
+                            { "MaSP", "$SanPham.MaSP" },
+                            { "TenSP", "$SanPham.TenSP" }
+                        }},
+                        { "DoanhSo", new BsonDocument("$sum", "$SanPham.SoLuong") },
+                        { "DoanhThu", new BsonDocument("$sum", new BsonDocument("$multiply", new BsonArray { "$SanPham.SoLuong", "$SanPham.DonGia" })) }
+                    }),
+                    new BsonDocument("$sort", new BsonDocument("DoanhSo", -1)),
+                    new BsonDocument("$limit", 10)
+                };
+
+                var result = collection.Aggregate<BsonDocument>(pipeline).ToList();
 
                 DataTable dt = new DataTable();
+                dt.Columns.Add("MaSP", typeof(int));
+                dt.Columns.Add("TenSP", typeof(string));
+                dt.Columns.Add("DoanhSo", typeof(int));
+                dt.Columns.Add("DoanhThu", typeof(decimal));
 
-                using (SqlConnection conn = new SqlConnection(DataProvider.ConnStr))
+                foreach (var doc in result)
                 {
-                    using (SqlCommand cmd = new SqlCommand(query, conn))
-                    {
-                        SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                        adapter.Fill(dt);
-                    }
+                    var id = doc["_id"].AsBsonDocument;
+                    int maSP = id["MaSP"].AsInt32;
+                    string tenSP = id["TenSP"].AsString;
+                    int doanhSo = doc["DoanhSo"].AsInt32;
+                    decimal doanhThu = doc["DoanhThu"].ToDecimal();
+
+                    dt.Rows.Add(maSP, tenSP, doanhSo, doanhThu);
                 }
 
                 dtgvTopSales.DataSource = dt;
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show("Lỗi khi tải top sản phẩm: " + ex.Message);
             }
         }
         #endregion
