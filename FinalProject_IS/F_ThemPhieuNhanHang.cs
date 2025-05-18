@@ -42,6 +42,29 @@ namespace FinalProject_IS
                         TongTien = double.Parse(row.Cells["TongTien"].Value.ToString())
                     };
 
+                    // --- Begin update logic for PhieuNhapHang ---
+                    int soLuongConLai = phieu.SoLuongNhap;
+                    // Get all PhieuNhapHang with status "Chưa Duyệt" and this MaSP, ordered by oldest first
+                    var phieuNhapList = PhieuNhapHangDAO_Mongo.GetPhieuNhapChuaDuyetByMaSP(phieu.MaSP);
+
+                    foreach (var phieuNhap in phieuNhapList)
+                    {
+                        if (soLuongConLai <= 0) break;
+
+                        // Find the product detail inside the PhieuNhapHang
+                        var sanPham = phieuNhap.SanPham.FirstOrDefault(sp => sp.MaSP == phieu.MaSP);
+                        if (sanPham == null) continue;
+
+                        int soLuongThieu = sanPham.SoLuongThieu;
+                        int tru = Math.Min(soLuongThieu, soLuongConLai);
+                        sanPham.SoLuongThieu -= tru;
+                        soLuongConLai -= tru;
+
+                        // Update the entire PhieuNhapHang in DB
+                        PhieuNhapHangDAO_Mongo.UpdatePhieuNhapHang(phieuNhap);
+                    }
+                    // --- End update logic ---
+
                     sanPhamList.Add(phieu);
                 }
 
@@ -50,6 +73,8 @@ namespace FinalProject_IS
                     NgayNhan = ngayNhan,
                     SanPham = sanPhamList
                 };
+
+                PhieuNhapHangDAO_Mongo.UpdateTinhTrangPhieuNhap();
 
                 PhieuNhanHangDAO_Mongo.InsertPhieuNhan(newPhieuNhan);
 

@@ -15,7 +15,7 @@ namespace FinalProject_IS.Model
 
         [BsonElement("MaHD")]
         [BsonRequired]
-        public int MaHD { get; set; }
+        public string MaHD { get; set; }
 
         [BsonElement("MaKH")]
         [BsonRequired]

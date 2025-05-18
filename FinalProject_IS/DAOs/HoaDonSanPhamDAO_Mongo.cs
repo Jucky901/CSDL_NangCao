@@ -27,7 +27,7 @@ namespace FinalProject_IS.DAOs
             {
                 HoaDonSanPham hd = new HoaDonSanPham
                 {
-                    MaHD = doc.Contains("MaHD") ? doc["MaHD"].AsInt32 : 0,
+                    MaHD = doc.Contains("MaHD") ? doc["MaHD"].AsString : string.Empty,
                     MaKH = doc.Contains("MaKH") ? doc["MaKH"].AsInt32 : 0,
                     MaNV = doc.Contains("MaNV") ? doc["MaNV"].AsInt32 : 0,
                     NgayGioTao = doc.Contains("NgayGioTao") ? doc["NgayGioTao"].ToUniversalTime() : DateTime.MinValue,
@@ -60,6 +60,42 @@ namespace FinalProject_IS.DAOs
             }
 
             return dsHoaDonSanPham;
+        }
+
+        public static bool isExistSoHD(string maHD)
+        {
+            var collection = MongoConnection.Database.GetCollection<BsonDocument>("HoaDonSanPham");
+            var filter = Builders<BsonDocument>.Filter.Eq("MaHD", maHD);
+            var count = collection.CountDocuments(filter);
+            return count > 0;
+        }
+
+        public static void Insert(HoaDonSanPham hd)
+        {
+            try
+            {
+                var collection = MongoConnection.Database.GetCollection<HoaDonSanPham>("HoaDonSanPham");
+                collection.InsertOne(hd);
+            }
+            catch (Exception ex)
+            {
+                // Handle the exception (e.g., log it)
+                Console.WriteLine($"Error inserting document: {ex.Message}");
+            }
+
+        }
+
+        public static List<SanPhamHoaDon> DSSanPhamHoaDon(string maHD)
+        {
+            List<SanPhamHoaDon> dsSanPham = new List<SanPhamHoaDon>();
+            var collection = MongoConnection.Database.GetCollection<HoaDonSanPham>("HoaDonSanPham");
+            var filter = Builders<HoaDonSanPham>.Filter.Eq("MaHD", maHD);
+            var document = collection.Find(filter).FirstOrDefault();
+            if (document != null)
+            {
+                dsSanPham = document.SanPham;
+            }
+            return dsSanPham;
         }
     }
 }

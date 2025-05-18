@@ -49,5 +49,20 @@ namespace FinalProject_IS.DAOs
 
             return dsHoaDonDichVu;
         }
+
+        public static bool InsertHoaDonDichVu(HoaDonDichVu hddv)
+        {
+            try
+            {
+                var collection = MongoConnection.Database.GetCollection<HoaDonDichVu>("HoaDonDichVu");
+                collection.InsertOne(hddv);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error inserting HoaDonDichVu: {ex.Message}");
+                return false;
+            }
+        }
     }
 }

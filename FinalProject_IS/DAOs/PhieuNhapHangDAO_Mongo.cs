@@ -77,7 +77,7 @@ namespace FinalProject_IS.DAOs
             }
         }
 
-        public static List<SanPhamPhieuNhap> GetPhieuNhapById (int maPhieuNhap)
+        public static List<SanPhamPhieuNhap> GetPhieuNhapById(int maPhieuNhap)
         {
             var collection = MongoConnection.Database.GetCollection<PhieuNhapHang>("PhieuNhapHang");
             var filter = Builders<PhieuNhapHang>.Filter.Eq("MaPhieuNhap", maPhieuNhap);
@@ -89,6 +89,60 @@ namespace FinalProject_IS.DAOs
             else
             {
                 return null;
+            }
+        }
+
+        public static List<PhieuNhapHang> GetPhieuNhapChuaDuyetByMaSP(int maSP)
+        {
+            var collection = MongoConnection.Database.GetCollection<PhieuNhapHang>("PhieuNhapHang");
+            var filter = Builders<PhieuNhapHang>.Filter.And(
+                Builders<PhieuNhapHang>.Filter.Eq("TinhTrangPhieuNhap", "Chưa duyệt"),
+                Builders<PhieuNhapHang>.Filter.ElemMatch("SanPham", Builders<SanPhamPhieuNhap>.Filter.Eq("MaSP", maSP))
+            );
+            return collection.Find(filter).ToList();
+        }
+
+        public static void UpdateSoLuongThieu(ObjectId id, int soLuongThieu)
+        {
+            var collection = MongoConnection.Database.GetCollection<PhieuNhapHang>("PhieuNhapHang");
+            var filter = Builders<PhieuNhapHang>.Filter.Eq("_id", id);
+            var update = Builders<PhieuNhapHang>.Update.Set("SanPham.$[elem].SoLuongThieu", soLuongThieu);
+            var arrayFilters = new List<ArrayFilterDefinition>
+            {
+                new BsonDocumentArrayFilterDefinition<BsonDocument>(new BsonDocument("elem.MaSP", id))
+            };
+            var options = new UpdateOptions { ArrayFilters = arrayFilters };
+            collection.UpdateOne(filter, update, options);
+        }
+
+        public static void UpdatePhieuNhapHang(PhieuNhapHang phieuNhap)
+        {
+            var collection = MongoConnection.Database.GetCollection<PhieuNhapHang>("PhieuNhapHang");
+            var filter = Builders<PhieuNhapHang>.Filter.Eq("MaPhieuNhap", phieuNhap.MaPhieuNhap);
+            var update = Builders<PhieuNhapHang>.Update
+                .Set("SanPham", phieuNhap.SanPham)
+                .Set("TinhTrangPhieuNhap", phieuNhap.TinhTrangPhieuNhap);
+            collection.UpdateOne(filter, update);
+        }
+
+        public static void UpdateTinhTrangPhieuNhap()
+        {
+            var collection = MongoConnection.Database.GetCollection<PhieuNhapHang>("PhieuNhapHang");
+            var filter = Builders<PhieuNhapHang>.Filter.Eq("TinhTrangPhieuNhap", "Chưa duyệt");
+            var phieuNhapList = collection.Find(filter).ToList();
+
+            foreach (var phieuNhap in phieuNhapList)
+            {
+                // Check if all SoLuongThieu are 0
+                bool allEnough = phieuNhap.SanPham != null &&
+                                 phieuNhap.SanPham.All(sp => sp.SoLuongThieu == 0);
+
+                if (allEnough)
+                {
+                    var update = Builders<PhieuNhapHang>.Update.Set("TinhTrangPhieuNhap", "Đủ");
+                    var updateFilter = Builders<PhieuNhapHang>.Filter.Eq("_id", phieuNhap.Id);
+                    collection.UpdateOne(updateFilter, update);
+                }
             }
         }
     }
