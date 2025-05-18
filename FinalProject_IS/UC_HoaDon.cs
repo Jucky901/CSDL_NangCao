@@ -29,6 +29,10 @@ namespace FinalProject_IS
             btnColumn.UseColumnTextForButtonValue = true;
 
             dtgvHoaDon.Columns.Add(btnColumn);
+            if (dtgvHoaDon.Columns["Id"] != null)
+            {
+                dtgvHoaDon.Columns["Id"].Visible = false;
+            }
         }
 
         private void dtgvHoaDon_CellContentClick(object sender, DataGridViewCellEventArgs e)

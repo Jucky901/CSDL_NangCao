@@ -41,5 +41,17 @@ namespace FinalProject_IS.DAOs
 
             return dsNhanVien;
         }
+
+        public static int GetMaNVByName(string name)
+        {
+            // Get the "NhanVien" collection from the database
+            var collection = MongoConnection.Database.GetCollection<BsonDocument>("NhanVien");
+            // Create a filter to find the document with the specified name
+            var filter = Builders<BsonDocument>.Filter.Eq("HoTen", name);
+            // Find the document
+            var document = collection.Find(filter).FirstOrDefault();
+            // Return the MaNV if found, otherwise return null
+            return document != null ? document["MaNV"].AsInt32 : 0;
+        }
     }
 }

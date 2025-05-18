@@ -21,7 +21,7 @@ namespace FinalProject_IS
         }
         private void LoadBang(string id)
         {
-            //dtgv_ChiTietHD_SP.DataSource = HoaDonDAO.LayChiTietTheoMaHD(id);
+            dtgv_ChiTietHD_SP.DataSource = HoaDonSanPhamDAO_Mongo.DSSanPhamHoaDon(id);
         }
 
         private void F_ChiTietHD_SanPham_Load(object sender, EventArgs e)

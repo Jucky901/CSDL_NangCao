@@ -187,15 +187,6 @@
       <DependentUpon>F_ChiTietPhieuNhap.cs</DependentUpon>
     </Compile>
     <Compile Include="DAOs\DataProvider.cs" />
-    <Compile Include="DAOs\DichVuDAO.cs" />
-    <Compile Include="DAOs\KhuyenMaiDAO.cs" />
-    <Compile Include="DAOs\NhanVienDAO.cs" />
-    <Compile Include="DAOs\HoaDonDAO.cs" />
-    <Compile Include="DAOs\PhieuNhapHangDAO.cs" />
-    <Compile Include="DAOs\PhieuNhanDAO.cs" />
-    <Compile Include="DAOs\KhachHangDAO.cs" />
-    <Compile Include="DAOs\SanPhamDAO.cs" />
-    <Compile Include="DAOs\ThuongHieuDAO.cs" />
     <Compile Include="F_Main.cs">
       <SubType>Form</SubType>
     </Compile>

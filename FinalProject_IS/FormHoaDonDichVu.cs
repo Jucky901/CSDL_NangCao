@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using FinalProject_IS.DAOs;
+using FinalProject_IS.Model;
 
 namespace FinalProject_IS
 {
@@ -242,102 +243,15 @@ namespace FinalProject_IS
 
         private void button1_Click(object sender, EventArgs e)
         {
-            using (SqlConnection conn = new SqlConnection(DataProvider.ConnStr))
-            {
-                conn.Open();
-                SqlTransaction tran = conn.BeginTransaction();
-
-                try
-                {
-                    int maKH = LayMaKH_TuSDT(txt_SDT.Text);
-                    int maNV = LayMaNV_TuTen(txt_TenNhanVien.Text);
-
-                    string sqlHD = @"INSERT INTO HoaDonDichVu 
-                             (NgayGioTao, MaKH, SoDienThoai, MaNV, NgayGioLayVot, LoaiPhieu)
-                             OUTPUT INSERTED.MaHDDV
-                             VALUES 
-                             (@NgayGioTao, @MaKH, @SoDienThoai, @MaNV, @NgayGioLayVot, @LoaiPhieu)";
-                    SqlCommand cmdHD = new SqlCommand(sqlHD, conn, tran);
-                    cmdHD.Parameters.AddWithValue("@NgayGioTao", DateTime.Now);
-                    cmdHD.Parameters.AddWithValue("@MaKH", maKH);
-                    cmdHD.Parameters.AddWithValue("@SoDienThoai", txt_SDT.Text);
-                    cmdHD.Parameters.AddWithValue("@MaNV", maNV);
-                    cmdHD.Parameters.AddWithValue("@NgayGioLayVot", date_layvot.Value);
-                    cmdHD.Parameters.AddWithValue("@LoaiPhieu", "DV");
-
-                    int maHDDV = (int)cmdHD.ExecuteScalar();
-
-                    foreach (DataGridViewRow row in dtg_ChiTietDanLuoi.Rows)
-                    {
-                        if (row.IsNewRow) continue; // bỏ dòng trống cuối
-
-                        string tenVot = row.Cells["TenVot"].Value?.ToString();
-                        string loaiDay = row.Cells["LoaiDay"].Value?.ToString();
-                        int soKG = int.Parse(row.Cells["SoKG"].Value.ToString());
-                        decimal thanhTien = decimal.Parse(row.Cells["ThanhTien"].Value.ToString());
-
-                        string sqlCT = @"INSERT INTO ChiTiet_HoaDonDichVu 
-                                 (MaHDDV, TenVot, LoaiDay, SoKG, ThanhTien)
-                                 VALUES 
-                                 (@MaHDDV, @TenVot, @LoaiDay, @SoKG, @ThanhTien)";
-                        SqlCommand cmdCT = new SqlCommand(sqlCT, conn, tran);
-                        cmdCT.Parameters.AddWithValue("@MaHDDV", maHDDV);
-                        cmdCT.Parameters.AddWithValue("@TenVot", tenVot);
-                        cmdCT.Parameters.AddWithValue("@LoaiDay", loaiDay);
-                        cmdCT.Parameters.AddWithValue("@SoKG", soKG);
-                        cmdCT.Parameters.AddWithValue("@ThanhTien", thanhTien);
-                        cmdCT.ExecuteNonQuery();
-                    }
-
-                    tran.Commit();
-                    MessageBox.Show("Lưu hóa đơn dịch vụ  thành công!", "Thông báo");
-                }
-                catch (Exception ex)
-                {
-                    tran.Rollback();
-                    MessageBox.Show("Lỗi khi lưu: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
+           
         }
         private int LayMaKH_TuSDT(string sdt)
         {
-            using (SqlConnection conn = new SqlConnection(DataProvider.ConnStr))
-            {
-                conn.Open();
-                string sql = "SELECT MaKH FROM KhachHang WHERE SoDienThoai = @sdt";
-                SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.AddWithValue("@sdt", sdt);
-                object result = cmd.ExecuteScalar();
-
-                if (result != null && int.TryParse(result.ToString(), out int maKH))
-                {
-                    return maKH;
-                }
-                else
-                {
-                    throw new Exception("Không tìm thấy khách hàng với số điện thoại này!");
-                }
-            }
+            return 0;
         }
         private int LayMaNV_TuTen(string tenNV)
         {
-            using (SqlConnection conn = new SqlConnection(DataProvider.ConnStr))
-            {
-                conn.Open();
-                string sql = "SELECT MaNV FROM NhanVien WHERE HoTen = @ten";
-                SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.AddWithValue("@ten", tenNV);
-                object result = cmd.ExecuteScalar();
-
-                if (result != null && int.TryParse(result.ToString(), out int maNV))
-                {
-                    return maNV;
-                }
-                else
-                {
-                    throw new Exception("Không tìm thấy nhân viên với tên này!");
-                }
-            }
+            return 0;
         }
         public class ChiTietSanPham
         {
