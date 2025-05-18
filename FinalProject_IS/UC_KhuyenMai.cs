@@ -21,24 +21,28 @@ namespace FinalProject_IS
 
         public void LoadDSKhuyenMai()
         {
-            dtgvKhuyenMai.DataSource = KhuyenMaiDAO.DsKhuyenMai();
+            dtgvKhuyenMai.DataSource = KhuyenMaiDAO_Mongo.DSKhuyenMai();
+            if (dtgvKhuyenMai.Columns["Id"] != null)
+            {
+                dtgvKhuyenMai.Columns["Id"].Visible = false;
+            }
         }
 
         private void btnThem_KM_Click(object sender, EventArgs e)
         {
-            Form4 form = new Form4();
+            F_TaoKhuyenMai form = new F_TaoKhuyenMai();
             form.Show();
         }
 
         private void btnXoa_Click(object sender, EventArgs e)
         {
-            // Kiểm tra xem có hàng nào được chọn không
+             //Kiểm tra xem có hàng nào được chọn không
             if (dtgvKhuyenMai.SelectedRows.Count > 0)
             {
-                // Tạo một danh sách để lưu trữ các mã khuyến mãi cần xóa
+            //    // Tạo một danh sách để lưu trữ các mã khuyến mãi cần xóa
                 List<int> maKhuyenMaiCanXoa = new List<int>();
 
-                // Duyệt qua các hàng đã được chọn
+            //    // Duyệt qua các hàng đã được chọn
                 foreach (DataGridViewRow row in dtgvKhuyenMai.SelectedRows)
                 {                   
                     if (row.Cells["MaKM"].Value != null && int.TryParse(row.Cells["MaKM"].Value.ToString(), out int maKM))
@@ -59,11 +63,11 @@ namespace FinalProject_IS
                     try
                     {
                         // Gọi phương thức trong lớp DAO để xóa các khuyến mãi dựa trên danh sách mã
-                        int rowsAffected = KhuyenMaiDAO.XoaNhieuKhuyenMai(maKhuyenMaiCanXoa);
+                        bool rowsAffected = KhuyenMaiDAO_Mongo.DeleteKhuyenMaiByMaKM(maKhuyenMaiCanXoa);
 
-                        if (rowsAffected > 0)
+                        if (rowsAffected)
                         {
-                            MessageBox.Show($"Đã xóa thành công {rowsAffected} khuyến mãi.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            MessageBox.Show("Đã xóa thành công khuyến mãi.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                             // Cập nhật lại DataGridView (ví dụ: tải lại dữ liệu)
                             LoadDSKhuyenMai(); 

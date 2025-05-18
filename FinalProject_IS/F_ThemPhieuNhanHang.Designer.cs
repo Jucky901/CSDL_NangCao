@@ -1,6 +1,6 @@
 ﻿namespace FinalProject_IS
 {
-    partial class Form3
+    partial class F_ThemPhieuNhanHang
     {
         /// <summary>
         /// Required designer variable.

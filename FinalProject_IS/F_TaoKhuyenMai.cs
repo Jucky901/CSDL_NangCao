@@ -1,4 +1,5 @@
 ﻿using FinalProject_IS.DAOs;
+using FinalProject_IS.Model;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,9 +12,9 @@ using System.Windows.Forms;
 
 namespace FinalProject_IS
 {
-    public partial class Form4 : Form
+    public partial class F_TaoKhuyenMai : Form
     {
-        public Form4()
+        public F_TaoKhuyenMai()
         {
             InitializeComponent();
         }
@@ -21,14 +22,14 @@ namespace FinalProject_IS
         private void btnThem_Click(object sender, EventArgs e)
         {
             KhuyenMai khuyenMai = new KhuyenMai();
-            khuyenMai.TenChuongTrinh = txtTenKM.Text;
-            khuyenMai.GiaTriKhuyenMai= float.Parse(txtGiaTri.Text);
-            khuyenMai.DieuKienKhuyenMai =txtDieuKien.Text.Trim();
+            khuyenMai.TenCTKM = txtTenKM.Text;
+            khuyenMai.GiaTriKhuyenMai= double.Parse(txtGiaTri.Text);
+            khuyenMai.DieuKienKhuyenMai = txtDieuKien.Text.Trim();
             khuyenMai.NgayBatDau = dateTimePicker1.Value;
             khuyenMai.NgayKetThuc = dateTimePicker2.Value;
             khuyenMai.SoLuong = Convert.ToInt32(txtSoLuong.Text);
 
-            KhuyenMaiDAO.InsertKhuyenMai(khuyenMai);
+            KhuyenMaiDAO_Mongo.InsertKhuyenMai(khuyenMai);
             ClearForm();
             this.Close();
         }

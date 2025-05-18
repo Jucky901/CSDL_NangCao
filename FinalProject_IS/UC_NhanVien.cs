@@ -21,7 +21,11 @@ namespace FinalProject_IS
 
         public void LoadNV()
         {
-            dtgvNhanVien.DataSource = NhanVienDAO.DsNhanVien();
+            dtgvNhanVien.DataSource = NhanVienDAO_Mongo.DSNhanVien();
+            if (dtgvNhanVien.Columns["Id"] != null)
+            {
+                dtgvNhanVien.Columns["Id"].Visible = false;
+            }
         }
 
         private void btn_ThemNV_Click(object sender, EventArgs e)

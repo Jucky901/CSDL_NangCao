@@ -21,7 +21,7 @@ namespace FinalProject_IS
 
         public void LoadDsHoaDon()
         {
-            dtgvHoaDon.DataSource = HoaDonDAO.DSHoaDon();
+            dtgvHoaDon.DataSource = HoaDonSanPhamDAO_Mongo.DSHoaDonSanPham();
             DataGridViewButtonColumn btnColumn = new DataGridViewButtonColumn();
             btnColumn.Name = "Action";
             btnColumn.HeaderText = "Action";

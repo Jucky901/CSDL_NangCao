@@ -22,8 +22,8 @@ namespace FinalProject_IS.Model
         [BsonElement("LoaiSP")]
         public string LoaiSP { get; set; }
 
-        [BsonElement("GiaBan")]
-        public double GiaBan { get; set; }
+        [BsonElement("GiaSP")]
+        public double GiaSP { get; set; }
 
         [BsonElement("SoLuongTon")]
         public int SoLuongTon { get; set; }
@@ -39,5 +39,8 @@ namespace FinalProject_IS.Model
 
         [BsonElement("MoTa")]
         public string MoTa { get; set; }
+
+        [BsonElement("ThuongHieu")]
+        public string ThuongHieu { get; set; }
     }
 }

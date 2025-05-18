@@ -8,7 +8,7 @@ using MongoDB.Bson;
 
 namespace FinalProject_IS.Model
 {
-    public class PhieuNhan
+    public class PhieuNhanHang
     {
         [BsonId]
         public ObjectId Id { get; set; }

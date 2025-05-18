@@ -21,7 +21,11 @@ namespace FinalProject_IS
 
         public void LoadDsKhachHang()
         {
-            dtgvKhachHang.DataSource = KhachHangDAO.DSKhachHang();
+            dtgvKhachHang.DataSource = KhachHangDAO_Mongo.DSKhachHang();
+            if (dtgvKhachHang.Columns["Id"] != null)
+            {
+                dtgvKhachHang.Columns["Id"].Visible = false;
+            }
         }
     }
 }

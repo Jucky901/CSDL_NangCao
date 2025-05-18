@@ -27,7 +27,7 @@ namespace FinalProject_IS
 
         private void LoadBang(int id)
         {
-            dtgv_ChiTiet.DataSource = PhieuNhapHangDAO.GetChiTietByID(id);
+            dtgv_ChiTiet.DataSource = PhieuNhapHangDAO_Mongo.GetPhieuNhapById(id);
         }
     }
 }

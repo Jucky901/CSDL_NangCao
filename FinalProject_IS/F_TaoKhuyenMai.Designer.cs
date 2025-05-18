@@ -1,6 +1,6 @@
 ﻿namespace FinalProject_IS
 {
-    partial class Form4
+    partial class F_TaoKhuyenMai
     {
         /// <summary>
         /// Required designer variable.

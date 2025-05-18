@@ -24,6 +24,10 @@ namespace FinalProject_IS
         public void LoadSP()    
         {
             dtgvKhoSP.DataSource = SanPhamDAO_Mongo.DSSanPham();
+            if (dtgvKhoSP.Columns["Id"] != null)
+            {
+                dtgvKhoSP.Columns["Id"].Visible = false;
+            }
         }
     }
 }
