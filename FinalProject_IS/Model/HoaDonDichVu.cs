@@ -10,6 +10,10 @@ namespace FinalProject_IS.Model
 {
     public class HoaDonDichVu
     {
+        public HoaDonDichVu()
+        {
+            ChiTiet = new List<ChiTietDichVu>();
+        }
         [BsonId]
         public ObjectId Id { get; set; }
 
@@ -58,5 +62,10 @@ namespace FinalProject_IS.Model
         [BsonElement("LoaiPhieu")]
         [BsonRequired]
         public string LoaiPhieu { get; set; }
+        [BsonElement("IsThanhToan")]
+        public bool IsThanhToan { get; set; }
+
+        [BsonElement("ChiTiet")]
+        public List<ChiTietDichVu> ChiTiet { get; set; }
     }
 }

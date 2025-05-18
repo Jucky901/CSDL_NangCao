@@ -11,6 +11,10 @@ namespace FinalProject_IS.DAOs
 {
     public class KhachHangDAO_Mongo
     {
+        public KhachHangDAO_Mongo(IMongoDatabase database)
+        {
+            _collection = database.GetCollection<KhachHang>("KhachHang");
+        }
         public static List<KhachHang> DSKhachHang()
         {
             List<KhachHang> dsKhachHang = new List<KhachHang>();
@@ -82,6 +86,13 @@ namespace FinalProject_IS.DAOs
                 Console.WriteLine($"Error inserting document: {ex.Message}");
                 return false;
             }
+        }
+        private readonly IMongoCollection<KhachHang> _collection;
+        public async Task<int?> TimMaKHTheoSDT(string sdt)
+        {
+            var filter = Builders<KhachHang>.Filter.Eq("SoDienThoai", sdt);
+            var kh = await _collection.Find(filter).FirstOrDefaultAsync();
+            return kh?.MaKH;
         }
     }
 }
