@@ -94,5 +94,13 @@ namespace FinalProject_IS.DAOs
             var kh = await _collection.Find(filter).FirstOrDefaultAsync();
             return kh?.MaKH;
         }
+        private static IMongoCollection<LoaiKhachHang> _col
+        = MongoConnection.Database.GetCollection<LoaiKhachHang>("LoaiKhachHang");
+        public static LoaiKhachHang GetByMaLoai(int maLoai)
+        {
+            return _col
+              .Find(l => l.MaLoaiKhachHang == maLoai)
+              .FirstOrDefault();
+        }
     }
 }

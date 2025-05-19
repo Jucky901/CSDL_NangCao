@@ -47,12 +47,24 @@ namespace FinalProject_IS
             if (khachHang == null)
             {
                 txt_HoTen.Text = "Không thấy khách hàng";
+                lbl_GiamGia.Text = "0%";
             }
             else
             {
-                txt_HoTen.Text = khachHang.HoTen.ToString();
-            }
+                txt_HoTen.Text = khachHang.HoTen;
 
+                // Lấy loại khách
+                var loai = KhachHangDAO_Mongo.GetByMaLoai(khachHang.MaLoaiKH);
+                if (loai != null)
+                {
+                    // Hiển thị mức giảm tối đa (ví dụ "10%")
+                    lbl_GiamGia.Text = loai.GiamGiaToiDa.ToString("N0") + "%";
+                }
+                else
+                {
+                    lbl_GiamGia.Text = "0%";
+                }
+            }
         }
 
         private void txtHoTen_KeyDown(object sender, KeyEventArgs e)
@@ -189,31 +201,27 @@ namespace FinalProject_IS
         }
         private void CapNhatSoTienConThieu(bool laTienMat)
         {
-            // Lấy giá trị tổng tiền hàng
-            decimal tongTien = 0, tienMat = 0, chuyenKhoan = 0;
+            // 1) Tính subtotal và afterCode (như trên)
+            decimal subtotal = dtTemp.AsEnumerable().Sum(r => r.Field<decimal>("ThanhTien"));
+            decimal codeDiscount = decimal.TryParse(txt_GiamGia.Text, out var cd) ? cd : 0m;
+            decimal afterCode = subtotal - codeDiscount;
 
+            // 2) Parse tiền nhập
+            decimal cash = decimal.TryParse(txt_TraTienMat.Text, out var t1) ? t1 : 0m;
+            decimal transfer = decimal.TryParse(txt_ChuyenKhoan.Text, out var t2) ? t2 : 0m;
 
-            decimal.TryParse(txt_TongTienKhachHang.Text, out tongTien);
-            decimal.TryParse(txt_TraTienMat.Text, out tienMat);
-            decimal.TryParse(txt_ChuyenKhoan.Text, out chuyenKhoan);
-
-            // Nếu nhập tiền mặt, cập nhật số tiền chuyển khoản còn thiếu
+            // 3) Tính thiếu dựa trên afterCode
             if (laTienMat)
             {
-                decimal tienThieu = tongTien - tienMat;
-                txt_ChuyenKhoan.Text = (tienThieu > 0 ? tienThieu : 0).ToString("N0");
+                decimal missingTransfer = afterCode - cash;
+                txt_ChuyenKhoan.Text = (missingTransfer > 0 ? missingTransfer : 0m)
+                                        .ToString("N0");
             }
-            else // Nếu nhập chuyển khoản, cập nhật số tiền mặt còn thiếu
+            else
             {
-                decimal tienThieu = tongTien - chuyenKhoan;
-                txt_TraTienMat.Text = (tienThieu > 0 ? tienThieu : 0).ToString("N0");
-            }
-
-            // Kiểm tra nếu tiền mặt lớn hơn tổng tiền => Chuyển khoản = 0
-            if (tienMat >= tongTien)
-            {
-                txt_ChuyenKhoan.Text = "0";
-                //txt_TienThoi.Text = (tienMat - tongTien).ToString("N0"); // Hiển thị tiền thối
+                decimal missingCash = afterCode - transfer;
+                txt_TraTienMat.Text = (missingCash > 0 ? missingCash : 0m)
+                                        .ToString("N0");
             }
 
         }
@@ -265,30 +273,36 @@ namespace FinalProject_IS
 
             lbl_TenNV.Text = txt_TenNhanVien.Text;
             lbl_NgayXuat.Text = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
-            decimal subtotal = 0m;
-            foreach (DataRow r in dtTemp.Rows)
-                subtotal += (decimal)r["ThanhTien"];
+            // 1) Tính subtotal từ dtTemp
+            decimal subtotal = dtTemp.AsEnumerable()
+                                     .Sum(r => r.Field<decimal>("ThanhTien"));
 
-            lbl_TongTam.Text = subtotal.ToString("N0");
+            // 2) Lấy code discount (số tiền) và tính ra afterCode
+            decimal codeDiscount = decimal.TryParse(txt_GiamGia.Text, out var cd) ? cd : 0m;
+            decimal afterCode = subtotal - codeDiscount;
+            lbl_TongTam.Text = afterCode.ToString("N0");
 
-            // Giảm giá (ví dụ đọc từ txt_MaGiamGia là "10" nghĩa 10%)
-            decimal discountPercent = 0m;
-            //if (decimal.TryParse(txt_MaGiamGia.Text, out var dp))
-            //    discountPercent = dp;
-            //lbl_GiamGia.Text = discountPercent.ToString("N0") + "%";
+            // 3) Lấy loyalty percent từ label (ví dụ "10%")
+            var raw = lbl_GiamGia.Text.Replace("%", "").Trim();
+            decimal loyaltyPercent = decimal.TryParse(raw, out var lp) ? lp : 0m;
 
-            decimal rate = 1 - discountPercent / 100m;
-            decimal totalAfterDiscount = subtotal * rate;
-            lbl_TongCuoi.Text = totalAfterDiscount.ToString("N0");
+            // 4) Tính loyalty discount = afterCode * percent / 100
+            decimal loyaltyDiscount = afterCode * loyaltyPercent / 100m;
+            // 5) Tính tổng cuối và gán lbl_TongCuoi
+            decimal totalFinal = afterCode - loyaltyDiscount;
+            lbl_TongCuoi.Text = totalFinal.ToString("N0");
 
-            // Tiền khách đưa
+            // 5) Tiền khách đưa & tiền thối (dựa trên afterCode)
             decimal cash = decimal.TryParse(txt_TraTienMat.Text, out var t1) ? t1 : 0m;
             decimal transfer = decimal.TryParse(txt_ChuyenKhoan.Text, out var t2) ? t2 : 0m;
             decimal paid = cash + transfer;
             lbl_TienKhachDua.Text = paid.ToString("N0");
 
-            // Tiền thối
-            lbl_TienThoi.Text = (paid - totalAfterDiscount).ToString("N0");
+            decimal diff = paid - totalFinal;
+            if (diff >= 0)
+                lbl_TienThoi.Text = diff.ToString("N0");
+            else
+                lbl_TienThoi.Text = "Thiếu " + Math.Abs(diff).ToString("N0");
         }
         private void btn_LuuHoaDon_Click_1(object sender, EventArgs e)
         {
@@ -610,7 +624,7 @@ namespace FinalProject_IS
 
                 // Cộng dồn số tiền giảm
                 double tongGiam = form.SelectedItems.Sum(x => x.SoTienGiam);
-                txt_GiamGia.Text = tongGiam.ToString("N0");
+                txt_GiamGia.Text = tongGiam.ToString("N0");                 // số tiền giảm từ mã
                 txt_TongTienKhachHang.Text = (tongTien - tongGiam).ToString("N0");
 
                 // 6. Lưu các mã KM đã dùng & cập nhật số lượng
