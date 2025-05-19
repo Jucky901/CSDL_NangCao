@@ -166,6 +166,12 @@
     <Compile Include="DAOs\SanPhamPhieuNhanDAO_Mongo.cs" />
     <Compile Include="DAOs\SequenceDAO.cs" />
     <Compile Include="DAOs\ThongKeDAO.cs" />
+    <Compile Include="F_DangNhap.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="F_DangNhap.Designer.cs">
+      <DependentUpon>F_DangNhap.cs</DependentUpon>
+    </Compile>
     <Compile Include="F_DungMaKhuyenMai.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -298,6 +304,9 @@
     <Compile Include="UC_PhieuNhap.Designer.cs">
       <DependentUpon>UC_PhieuNhap.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="F_DangNhap.resx">
+      <DependentUpon>F_DangNhap.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="F_DungMaKhuyenMai.resx">
       <DependentUpon>F_DungMaKhuyenMai.cs</DependentUpon>
     </EmbeddedResource>
@@ -330,6 +339,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <EmbeddedResource Include="UC_BanHang.resx">
       <DependentUpon>UC_BanHang.cs</DependentUpon>
@@ -379,6 +389,9 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Resources\tải_xuống.png" />
+    <None Include="tải xuống.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

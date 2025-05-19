@@ -24,6 +24,9 @@ namespace FinalProject_IS
         private bool isDichVu = false;
         public UC_BanHang ucBanHang;
 
+        public int manv;
+        public string tenNV;
+        public int maChucVu;
         public F_Main()
         {
             InitializeComponent();
@@ -37,6 +40,17 @@ namespace FinalProject_IS
             UC_BanHang uc = new UC_BanHang();
             ucBanHang.Location = new Point(0, 83);
             panel_Main.Controls.Add(ucBanHang);
+            btn_Name.Text = "Xin chào " + tenNV;
+            ucBanHang.txt_TenNhanVien.Text = tenNV;
+
+            if (maChucVu == 1)
+            {
+                btn_DoanhThu.Hide();
+                btn_KhuyenMai.Hide();
+                btn_PhieuNhan.Hide();
+                btn_PhieuNhap.Hide();
+                btn_NhanVien.Hide();
+            }
         }
 
         private void btn_BanHang_Click(object sender, EventArgs e)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -66,6 +67,20 @@ namespace FinalProject_IS.DAOs
                                .Project(n => new { n.MaNV })
                                .FirstOrDefaultAsync();
             return nv == null ? (int?)null : nv.MaNV;
+        }
+
+        public static NhanVien KiemTraDangNhap(string email, int manv)
+        {
+            var client = new MongoClient("mongodb://localhost:27017");
+            var database = client.GetDatabase("CauLong");
+            var collection = database.GetCollection<NhanVien>("NhanVien");
+
+            var filter = Builders<NhanVien>.Filter.Eq(nv => nv.Email, email) &
+                         Builders<NhanVien>.Filter.Eq(nv => nv.MaNV, manv);
+
+            var nhanVien = collection.Find(filter).FirstOrDefault();
+
+            return nhanVien;
         }
     }
 }

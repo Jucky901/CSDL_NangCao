@@ -1,0 +1,4 @@
+Lỗi:
+- hóa đơn (góc phải form bán hàng): hiện % khuyến mãi sai
+- phiếu đan vợt: thêm 2 vợt vào nhưng phiếu chỉ hiện 1 hoặc chỉ hiện vợt đầu tiên
+- chưa áp dụng được giảm giá theo mã loại khách hàng

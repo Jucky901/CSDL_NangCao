@@ -988,7 +988,6 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.RichTextBox txt_HoTen;
         private System.Windows.Forms.Button button27;
-        private System.Windows.Forms.RichTextBox txt_TenNhanVien;
         private System.Windows.Forms.Button button26;
         private System.Windows.Forms.RichTextBox txt_SDT;
         private System.Windows.Forms.Button button25;
@@ -1064,5 +1063,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column6;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column7;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column8;
+        public System.Windows.Forms.RichTextBox txt_TenNhanVien;
     }
 }
