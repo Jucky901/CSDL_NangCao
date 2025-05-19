@@ -79,8 +79,8 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.richTextBox15 = new System.Windows.Forms.RichTextBox();
             this.button34 = new System.Windows.Forms.Button();
-            this.button33 = new System.Windows.Forms.Button();
-            this.richTextBox14 = new System.Windows.Forms.RichTextBox();
+            this.Btn_ApDungMaGiamGia = new System.Windows.Forms.Button();
+            this.txt_GiamGia = new System.Windows.Forms.RichTextBox();
             this.button32 = new System.Windows.Forms.Button();
             this.button31 = new System.Windows.Forms.Button();
             this.richTextBox13 = new System.Windows.Forms.RichTextBox();
@@ -648,8 +648,8 @@
             this.panel2.AutoScroll = true;
             this.panel2.Controls.Add(this.richTextBox15);
             this.panel2.Controls.Add(this.button34);
-            this.panel2.Controls.Add(this.button33);
-            this.panel2.Controls.Add(this.richTextBox14);
+            this.panel2.Controls.Add(this.Btn_ApDungMaGiamGia);
+            this.panel2.Controls.Add(this.txt_GiamGia);
             this.panel2.Controls.Add(this.button32);
             this.panel2.Controls.Add(this.button31);
             this.panel2.Controls.Add(this.richTextBox13);
@@ -666,6 +666,7 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(1056, 221);
             this.panel2.TabIndex = 20;
+            this.panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.panel2_Paint);
             // 
             // richTextBox15
             // 
@@ -690,30 +691,32 @@
             this.button34.Text = "Ghi chú";
             this.button34.UseVisualStyleBackColor = false;
             // 
-            // button33
+            // Btn_ApDungMaGiamGia
             // 
-            this.button33.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(1)))), ((int)(((byte)(166)))), ((int)(((byte)(90)))));
-            this.button33.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(222)))), ((int)(((byte)(222)))));
-            this.button33.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button33.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button33.ForeColor = System.Drawing.Color.White;
-            this.button33.Location = new System.Drawing.Point(348, 136);
-            this.button33.Name = "button33";
-            this.button33.Size = new System.Drawing.Size(152, 26);
-            this.button33.TabIndex = 52;
-            this.button33.Text = "Áp dụng mã giảm giá";
-            this.button33.UseVisualStyleBackColor = false;
+            this.Btn_ApDungMaGiamGia.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(1)))), ((int)(((byte)(166)))), ((int)(((byte)(90)))));
+            this.Btn_ApDungMaGiamGia.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(222)))), ((int)(((byte)(222)))));
+            this.Btn_ApDungMaGiamGia.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Btn_ApDungMaGiamGia.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Btn_ApDungMaGiamGia.ForeColor = System.Drawing.Color.White;
+            this.Btn_ApDungMaGiamGia.Location = new System.Drawing.Point(346, 136);
+            this.Btn_ApDungMaGiamGia.Name = "Btn_ApDungMaGiamGia";
+            this.Btn_ApDungMaGiamGia.Size = new System.Drawing.Size(152, 26);
+            this.Btn_ApDungMaGiamGia.TabIndex = 52;
+            this.Btn_ApDungMaGiamGia.Text = "Áp dụng mã giảm giá";
+            this.Btn_ApDungMaGiamGia.UseVisualStyleBackColor = false;
+            this.Btn_ApDungMaGiamGia.Click += new System.EventHandler(this.Btn_ApDungMaGiamGia_Click);
             // 
-            // richTextBox14
+            // txt_GiamGia
             // 
-            this.richTextBox14.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(252)))), ((int)(((byte)(252)))));
-            this.richTextBox14.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.richTextBox14.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(201)))), ((int)(((byte)(201)))), ((int)(((byte)(201)))));
-            this.richTextBox14.Location = new System.Drawing.Point(173, 136);
-            this.richTextBox14.Name = "richTextBox14";
-            this.richTextBox14.Size = new System.Drawing.Size(179, 26);
-            this.richTextBox14.TabIndex = 51;
-            this.richTextBox14.Text = "Mã giảm giá";
+            this.txt_GiamGia.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(252)))), ((int)(((byte)(252)))));
+            this.txt_GiamGia.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txt_GiamGia.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(201)))), ((int)(((byte)(201)))), ((int)(((byte)(201)))));
+            this.txt_GiamGia.Location = new System.Drawing.Point(173, 136);
+            this.txt_GiamGia.Name = "txt_GiamGia";
+            this.txt_GiamGia.ReadOnly = true;
+            this.txt_GiamGia.Size = new System.Drawing.Size(179, 26);
+            this.txt_GiamGia.TabIndex = 51;
+            this.txt_GiamGia.Text = "Mã giảm giá";
             // 
             // button32
             // 
@@ -1006,8 +1009,8 @@
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.RichTextBox richTextBox15;
         private System.Windows.Forms.Button button34;
-        private System.Windows.Forms.Button button33;
-        private System.Windows.Forms.RichTextBox richTextBox14;
+        private System.Windows.Forms.Button Btn_ApDungMaGiamGia;
+        private System.Windows.Forms.RichTextBox txt_GiamGia;
         private System.Windows.Forms.Button button32;
         private System.Windows.Forms.Button button31;
         private System.Windows.Forms.RichTextBox richTextBox13;

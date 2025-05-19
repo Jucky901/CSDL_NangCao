@@ -11,6 +11,12 @@ namespace FinalProject_IS.DAOs
 {
     public class NhanVienDAO_Mongo
     {
+        private readonly IMongoCollection<NhanVien> _col;
+
+        public NhanVienDAO_Mongo(IMongoDatabase database)
+        {
+            _col = database.GetCollection<NhanVien>("NhanVien");
+        }
         public static List<NhanVien> DSNhanVien()
         {
             List<NhanVien> dsNhanVien = new List<NhanVien>();
@@ -52,6 +58,14 @@ namespace FinalProject_IS.DAOs
             var document = collection.Find(filter).FirstOrDefault();
             // Return the MaNV if found, otherwise return null
             return document != null ? document["MaNV"].AsInt32 : 0;
+        }
+        public async Task<int?> TimMaNVTheoTenAsync(string hoTen)
+        {
+            var filter = Builders<NhanVien>.Filter.Eq(nv => nv.HoTen, hoTen);
+            var nv = await _col.Find(filter)
+                               .Project(n => new { n.MaNV })
+                               .FirstOrDefaultAsync();
+            return nv == null ? (int?)null : nv.MaNV;
         }
     }
 }

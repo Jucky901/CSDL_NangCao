@@ -50,7 +50,7 @@
             this.txtTenVot = new System.Windows.Forms.RichTextBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.date_layvot = new System.Windows.Forms.DateTimePicker();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btn_LuuPhieu = new System.Windows.Forms.Button();
             this.txt_TienCong = new System.Windows.Forms.RichTextBox();
             this.lab_tt = new System.Windows.Forms.Label();
             this.comboBoxTrangThai = new System.Windows.Forms.ComboBox();
@@ -246,7 +246,7 @@
             this.panel1.BackColor = System.Drawing.Color.White;
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel1.Controls.Add(this.date_layvot);
-            this.panel1.Controls.Add(this.button1);
+            this.panel1.Controls.Add(this.btn_LuuPhieu);
             this.panel1.Controls.Add(this.txt_TienCong);
             this.panel1.Controls.Add(this.lab_tt);
             this.panel1.Controls.Add(this.comboBoxTrangThai);
@@ -279,15 +279,15 @@
             this.date_layvot.Size = new System.Drawing.Size(154, 22);
             this.date_layvot.TabIndex = 47;
             // 
-            // button1
+            // btn_LuuPhieu
             // 
-            this.button1.Location = new System.Drawing.Point(633, 461);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(142, 29);
-            this.button1.TabIndex = 46;
-            this.button1.Text = "Lưu phiếu ";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.btn_LuuPhieu.Location = new System.Drawing.Point(633, 461);
+            this.btn_LuuPhieu.Name = "btn_LuuPhieu";
+            this.btn_LuuPhieu.Size = new System.Drawing.Size(142, 29);
+            this.btn_LuuPhieu.TabIndex = 46;
+            this.btn_LuuPhieu.Text = "Lưu phiếu ";
+            this.btn_LuuPhieu.UseVisualStyleBackColor = true;
+            this.btn_LuuPhieu.Click += new System.EventHandler(this.btn_LuuPhieu_Click);
             // 
             // txt_TienCong
             // 
@@ -435,7 +435,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn TenVot;
         private System.Windows.Forms.DataGridViewTextBoxColumn SoKG;
         private System.Windows.Forms.DataGridViewTextBoxColumn ThanhTien;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btn_LuuPhieu;
         private System.Windows.Forms.DateTimePicker date_layvot;
     }
 }

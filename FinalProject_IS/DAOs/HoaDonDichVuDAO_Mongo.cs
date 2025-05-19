@@ -11,6 +11,12 @@ namespace FinalProject_IS.DAOs
 {
     public class HoaDonDichVuDAO_Mongo
     {
+       
+        public HoaDonDichVuDAO_Mongo(IMongoDatabase database)
+        {
+            _client = database.Client;
+            _col = database.GetCollection<HoaDonDichVu>("HoaDonDichVu");
+        }
         public static List<HoaDonDichVu> DSHoaDonDichVu()
         {
             List<HoaDonDichVu> dsHoaDonDichVu = new List<HoaDonDichVu>();
@@ -63,6 +69,14 @@ namespace FinalProject_IS.DAOs
                 Console.WriteLine($"Error inserting HoaDonDichVu: {ex.Message}");
                 return false;
             }
+        }
+        private readonly IMongoCollection<HoaDonDichVu> _col;
+        private readonly IMongoClient _client;
+
+        public async Task<ObjectId> InsertHoaDonDichVuAsync(HoaDonDichVu hddv)
+        {
+            await _col.InsertOneAsync(hddv);
+            return hddv.Id;
         }
     }
 }

@@ -77,5 +77,12 @@ namespace FinalProject_IS.DAOs
             var result = collection.DeleteMany(filter);
             return result.DeletedCount > 0;
         }
+        public static void GiamSoLuong(int maKM, int amount)
+        {
+            var col = MongoConnection.Database.GetCollection<KhuyenMai>("KhuyenMai");
+            var filter = Builders<KhuyenMai>.Filter.Eq(k => k.MaKM, maKM);
+            var update = Builders<KhuyenMai>.Update.Inc(k => k.SoLuong, -amount);
+            col.UpdateOne(filter, update);
+        }
     }
 }

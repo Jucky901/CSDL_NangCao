@@ -1,4 +1,7 @@
-﻿using System;
+﻿using FinalProject_IS.DAOs;
+using FinalProject_IS.Model;
+using MongoDB.Bson;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -10,8 +13,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using FinalProject_IS.DAOs;
-using FinalProject_IS.Model;
 
 namespace FinalProject_IS
 {
@@ -241,10 +242,7 @@ namespace FinalProject_IS
 
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-           
-        }
+        
         private int LayMaKH_TuSDT(string sdt)
         {
             return 0;
@@ -267,6 +265,82 @@ namespace FinalProject_IS
         {
             printDocument.PrintPage += new PrintPageEventHandler(printDocument_PrintPage);
             printDocument.Print();
+        }
+
+        private async void btn_LuuPhieu_Click(object sender, EventArgs e)
+        {
+            var db = MongoConnection.Database;
+            var khDao = new KhachHangDAO_Mongo(db);
+            var nvDao = new NhanVienDAO_Mongo(db);
+            var hddvDao = new HoaDonDichVuDAO_Mongo(db);
+
+            // 1. Lấy MaKH, MaNV
+            var sdt = txt_SDT.Text.Trim();
+            var tenNV = txt_TenNhanVien.Text.Trim();
+            int? maKH = await khDao.TimMaKHTheoSDT(sdt);
+            if (!maKH.HasValue)
+            {
+                MessageBox.Show("Không tìm thấy khách hàng!");
+                return;
+            }
+            int? maNV = await nvDao.TimMaNVTheoTenAsync(tenNV);
+            if (!maNV.HasValue)
+            {
+                MessageBox.Show("Không tìm thấy nhân viên!");
+                return;
+            }
+
+            // 2. Khởi tạo object HoaDonDichVu
+            var hddv = new HoaDonDichVu
+            {
+                MaHDDV = SequenceDAO.GetNextSequenceValue("HoaDonDichVu"),
+                NgayGioTao = DateTime.UtcNow,
+                MaKH = maKH.Value,
+                SoDienThoai = sdt,
+                MaNV = maNV.Value,
+                NgayGioLayVot = date_layvot.Value.ToUniversalTime(),
+                LoaiPhieu = "DV",
+                IsThanhToan = (comboBoxTrangThai.Text.Trim() == "Đã thanh toán")
+            };
+
+            // 3. Đọc chi tiết từ grid và gán summary
+            bool isFirst = true;
+            foreach (DataGridViewRow row in dtg_ChiTietDanLuoi.Rows)
+            {
+                if (row.IsNewRow) continue;
+
+                var ct = new ChiTietDichVu
+                {
+                    TenVot = row.Cells["TenVot"].Value?.ToString(),
+                    LoaiDay = row.Cells["LoaiDay"].Value?.ToString(),
+                    SoKG = double.Parse(row.Cells["SoKG"].Value.ToString()),
+                    ThanhTien = double.Parse(row.Cells["ThanhTien"].Value.ToString())
+                };
+
+                hddv.ChiTiet.Add(ct);
+
+                if (isFirst)
+                {
+                    // gán summary
+                    hddv.TenVot = ct.TenVot;
+                    hddv.LoaiDay = ct.LoaiDay;
+                    hddv.SoKG = ct.SoKG;
+                    hddv.ThanhTien = ct.ThanhTien;
+                    isFirst = false;
+                }
+            }
+
+            // 4. Ghi vào MongoDB
+            try
+            {
+                ObjectId newId = await hddvDao.InsertHoaDonDichVuAsync(hddv);
+                MessageBox.Show($"Lưu phiếu dịch vụ thành công! Id={newId}");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi lưu phiếu dịch vụ: " + ex.Message, "Lỗi",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }

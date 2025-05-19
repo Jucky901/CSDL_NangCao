@@ -1,16 +1,17 @@
-﻿using System;
+﻿using FinalProject_IS.DAOs;
+using FinalProject_IS.Model;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Printing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using FinalProject_IS.DAOs;
-using FinalProject_IS.Model;
 
 
 namespace FinalProject_IS
@@ -32,6 +33,9 @@ namespace FinalProject_IS
         public UC_BanHang()
         {
             InitializeComponent();
+            dtgvDSSanPham.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dtgvDSSanPham.MultiSelect = true;
+            InitTempTable();// Chỉ chọn 1 hàng
             dtgvDSSanPham.CellClick += dtgvDSSanPham_CellClick;
         }
 
@@ -79,7 +83,7 @@ namespace FinalProject_IS
         {
             if (txtMaSP.Text != "")
             {
-               sp = SanPhamDAO_Mongo.GetProductByID(Convert.ToInt32(txtMaSP.Text));
+                sp = SanPhamDAO_Mongo.GetProductByID(Convert.ToInt32(txtMaSP.Text));
 
                 if (sp != null)
                 {
@@ -118,6 +122,9 @@ namespace FinalProject_IS
         }
         private void dtgvDSSanPham_CellClick(object sender, DataGridViewCellEventArgs e)
         {
+            if (e.RowIndex < 0) return;              // Header click bỏ qua
+            //dtgvDSSanPham.ClearSelection();          // Bỏ chọn cũ
+            //dtgvDSSanPham.Rows[e.RowIndex].Selected = true;
             // Kiểm tra xem có phải nút "Xóa" không
             if (e.ColumnIndex == dtgvDSSanPham.ColumnCount - 1 && e.RowIndex >= 0)
             {
@@ -145,7 +152,7 @@ namespace FinalProject_IS
                 }
             }
         }
-       
+
         private void CapNhatTongTien()
         {
             decimal tongTien = 0;
@@ -298,7 +305,7 @@ namespace FinalProject_IS
             foreach (DataGridViewRow src in dtgvDSSanPham.Rows)
             {
                 if (src.IsNewRow) continue;
-               string MaSP = src.Cells["MaSP"].Value?.ToString();
+                string MaSP = src.Cells["MaSP"].Value?.ToString();
                 string ten = src.Cells["TenSP"].Value?.ToString();
                 int sl = int.Parse(src.Cells["SoLuong"].Value?.ToString() ?? "0");
                 decimal gia = decimal.Parse(src.Cells["GiaBan"].Value?.ToString() ?? "0");
@@ -321,7 +328,7 @@ namespace FinalProject_IS
                     break;
             }
 
-                return soHD;
+            return soHD;
         }
         private void LuuHoaDon()
         {
@@ -354,7 +361,7 @@ namespace FinalProject_IS
             {
                 MessageBox.Show("Lỗi: " + ex.Message, "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-        }    
+        }
         private void btn_LuuHoaDon_Click(object sender, EventArgs e)
         {
             if (dtTemp.Rows.Count == 0)
@@ -385,7 +392,7 @@ namespace FinalProject_IS
             previewDialog.ShowDialog();
         }
 
-       private void printDocument_PrintPage(object sender, PrintPageEventArgs e)
+        private void printDocument_PrintPage(object sender, PrintPageEventArgs e)
         {
             Graphics g = e.Graphics;
             Font font = new Font("Arial", 10);
@@ -497,7 +504,7 @@ namespace FinalProject_IS
         public string TenNV => txt_TenNhanVien.Text; // Lấy giá trị Tên Nhân Viên
         public string SDTKH => txt_SDT.Text;                 // Lấy giá trị SĐT
         public string HoTenKH => txt_HoTen.Text;             // Lấy giá trị Họ Tên
-     
+
 
         private void dtgvDSSanPham_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -522,7 +529,145 @@ namespace FinalProject_IS
             }
 
         }
+        private KhuyenMai khuyenMaiDangApDung;   // Lưu thông tin mã giảm giá đang dùng
+        private double soTienGiamTuKM;
+        private async void Btn_ApDungMaGiamGia_Click(object sender, EventArgs e)
+        {
+            // --- 1. Lấy danh sách sản phẩm hiện tại
+            var products = dtgvDSSanPham.Rows
+                .Cast<DataGridViewRow>()
+                .Where(r => !r.IsNewRow)
+                .Select(r => new {
+                    TenSP = r.Cells["TenSP"].Value?.ToString().Trim(),
+                    DonGia = double.TryParse(r.Cells["GiaBan"].Value?.ToString(), out var d) ? d : 0
+                })
+                .Where(p => !string.IsNullOrEmpty(p.TenSP))
+                .ToList();
 
-       
+            if (!products.Any())
+            {
+                MessageBox.Show("Chưa có sản phẩm trong đơn!");
+                return;
+            }
+
+            // --- 2. Lấy danh sách KM hợp lệ theo ngày, điều kiện tên SP
+            var allKm = KhuyenMaiDAO_Mongo.DSKhuyenMai();
+            var now = DateTime.UtcNow;
+            var eligiblePromotions = allKm
+                .Where(km => km.SoLuong > 0
+                          && km.NgayBatDau <= now
+                          && km.NgayKetThuc >= now
+                          && !string.IsNullOrWhiteSpace(km.DieuKienKhuyenMai))
+                .ToList();
+
+            // --- 3. Ghép products với Promotion: match TenSP.Contains(DieuKien)
+            var matches = products
+                .SelectMany(p => eligiblePromotions
+                    .Where(km => p.TenSP
+                        .IndexOf(km.DieuKienKhuyenMai.Trim(), StringComparison.OrdinalIgnoreCase) >= 0)
+                    .Select(km => new ProductWithDiscount
+                    {
+                        TenSP = p.TenSP,
+                        DonGia = p.DonGia,
+                        Promotion = km
+                    }))
+                .ToList();
+
+            if (!matches.Any())
+            {
+                MessageBox.Show("Không có sản phẩm nào được giảm giá!");
+                return;
+            }
+
+            // --- 4. Lọc tiếp mã KM khách đã dùng
+            var kmDaDungDao = new KhuyenMaiDaDungDAO(MongoConnection.Database);
+            var sdt = txt_SDT.Text.Trim();
+            var finalList = new List<ProductWithDiscount>();
+            foreach (var pd in matches)
+            {
+                bool daDung = await kmDaDungDao.DaSuDungAsync(pd.Promotion.MaKM, sdt);
+                if (!daDung) finalList.Add(pd);
+            }
+
+            if (!finalList.Any())
+            {
+                MessageBox.Show("Bạn đã sử dụng hết mã giảm giá cho các sản phẩm này hoặc không có mã phù hợp!");
+                return;
+            }
+
+            // --- 5. Hiển thị form con để chọn sản phẩm muốn AP DỤNG
+            using (var form = new F_DungMaKhuyenMai(finalList))
+            {
+                if (form.ShowDialog() != DialogResult.OK || form.SelectedItems.Count == 0)
+                    return;
+
+                // Tổng tiền
+                if (!double.TryParse(txt_TongTienKhachHang.Text, out double tongTien))
+                {
+                    MessageBox.Show("Tổng tiền không hợp lệ");
+                    return;
+                }
+
+                // Cộng dồn số tiền giảm
+                double tongGiam = form.SelectedItems.Sum(x => x.SoTienGiam);
+                txt_GiamGia.Text = tongGiam.ToString("N0");
+                txt_TongTienKhachHang.Text = (tongTien - tongGiam).ToString("N0");
+
+                // 6. Lưu các mã KM đã dùng & cập nhật số lượng
+                try
+                {
+                    var khDao = new KhachHangDAO_Mongo(MongoConnection.Database);
+                    var maKH = await khDao.TimMaKHTheoSDT(sdt);
+                    if (!maKH.HasValue)
+                    {
+                        MessageBox.Show("Không tìm thấy khách hàng.");
+                        return;
+                    }
+
+                    foreach (var pd in form.SelectedItems)
+                    {
+                        await kmDaDungDao.ThemKhuyenMaiDaDungAsync(new KhuyenMaiDaDung
+                        {
+                            MaKM = pd.Promotion.MaKM,
+                            MaKH = maKH.Value,
+                            SDT = sdt,
+                            NgaySuDung = DateTime.UtcNow,
+                            SoTienGiam = pd.SoTienGiam
+                        });
+                        KhuyenMaiDAO_Mongo.GiamSoLuong(pd.Promotion.MaKM, 1);
+                    }
+
+                    MessageBox.Show("Áp dụng mã giảm giá thành công!");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Lỗi khi lưu khuyến mãi đã dùng: {ex.Message}");
+                }
+            }
+        }
+        public class ProductWithDiscount
+        {
+            public string TenSP { get; set; }
+            public double DonGia { get; set; }
+            public KhuyenMai Promotion { get; set; }
+            /// <summary>Số tiền giảm trên sản phẩm này</summary>
+            public double SoTienGiam => DonGia * (Promotion.GiaTriKhuyenMai / 100.0);
+        }
+        private List<string> LayDsTenSanPham()
+        {
+            var ds = new List<string>();
+            foreach (DataGridViewRow row in dtgvDSSanPham.Rows)
+            {
+                if (row.IsNewRow) continue;
+                var cell = row.Cells["TenSP"].Value;
+                if (cell != null)
+                    ds.Add(cell.ToString());
+            }
+            return ds;
+        }
+        private void panel2_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }

@@ -6,10 +6,12 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{F5781346-DD18-4BEC-9D7B-F083314AC62B}</ProjectGuid>
     <OutputType>WinExe</OutputType>
+    <Nullable>enable</Nullable>
     <RootNamespace>FinalProject_IS</RootNamespace>
     <AssemblyName>FinalProject_IS</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <LangVersion>latest</LangVersion>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
   </PropertyGroup>
@@ -154,6 +156,7 @@
     <Compile Include="DAOs\HoaDonDichVuDAO_Mongo.cs" />
     <Compile Include="DAOs\HoaDonSanPhamDAO_Mongo.cs" />
     <Compile Include="DAOs\KhachHangDAO_Mongo.cs" />
+    <Compile Include="DAOs\KhuyenMaiDaDungDAO.cs" />
     <Compile Include="DAOs\KhuyenMaiDAO_Mongo.cs" />
     <Compile Include="DAOs\MongoConnection.cs" />
     <Compile Include="DAOs\NhanVienDAO_Mongo.cs" />
@@ -163,6 +166,12 @@
     <Compile Include="DAOs\SanPhamPhieuNhanDAO_Mongo.cs" />
     <Compile Include="DAOs\SequenceDAO.cs" />
     <Compile Include="DAOs\ThongKeDAO.cs" />
+    <Compile Include="F_DungMaKhuyenMai.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="F_DungMaKhuyenMai.Designer.cs">
+      <DependentUpon>F_DungMaKhuyenMai.cs</DependentUpon>
+    </Compile>
     <Compile Include="F_TaoKhuyenMai.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -212,10 +221,12 @@
     <Compile Include="FormHoaDonDichVu.Designer.cs">
       <DependentUpon>FormHoaDonDichVu.cs</DependentUpon>
     </Compile>
+    <Compile Include="Model\ChiTietDichVu.cs" />
     <Compile Include="Model\HoaDonDichVu.cs" />
     <Compile Include="Model\HoaDonSanPham.cs" />
     <Compile Include="Model\KhachHang.cs" />
     <Compile Include="Model\KhuyenMai.cs" />
+    <Compile Include="Model\KhuyenMaiDaDung.cs" />
     <Compile Include="Model\LoaiKhachHang.cs" />
     <Compile Include="Model\NhanVien.cs" />
     <Compile Include="Model\PhieuNhanHang.cs" />
@@ -287,6 +298,9 @@
     <Compile Include="UC_PhieuNhap.Designer.cs">
       <DependentUpon>UC_PhieuNhap.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="F_DungMaKhuyenMai.resx">
+      <DependentUpon>F_DungMaKhuyenMai.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="F_TaoKhuyenMai.resx">
       <DependentUpon>F_TaoKhuyenMai.cs</DependentUpon>
     </EmbeddedResource>
