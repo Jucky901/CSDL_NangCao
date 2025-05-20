@@ -82,5 +82,31 @@ namespace FinalProject_IS.DAOs
 
             return nhanVien;
         }
+
+        public static List<NhanVien> DSNhanVienByName(string name)
+        {
+            List<NhanVien> dsNhanVien = new List<NhanVien>();
+            // Get the "NhanVien" collection from the database
+            var collection = MongoConnection.Database.GetCollection<BsonDocument>("NhanVien");
+            // Fetch the documents that match the name, excluding the "_id" field
+            var filter = Builders<BsonDocument>.Filter.Regex("HoTen", new BsonRegularExpression(name, "i"));
+            var projection = Builders<BsonDocument>.Projection.Exclude("_id");
+            var documents = collection.Find(filter).Project(projection).ToList();
+            foreach (var doc in documents)
+            {
+                NhanVien nv = new NhanVien
+                {
+                    MaNV = doc.Contains("MaNV") ? doc["MaNV"].AsInt32 : 0,
+                    HoTen = doc.Contains("HoTen") ? doc["HoTen"].AsString : string.Empty,
+                    NgaySinh = doc.Contains("NgaySinh") ? doc["NgaySinh"].ToUniversalTime() : DateTime.MinValue,
+                    GioiTinh = doc.Contains("GioiTinh") ? doc["GioiTinh"].AsString : string.Empty,
+                    Email = doc.Contains("Email") ? doc["Email"].AsString : string.Empty,
+                    TenChucVu = doc.Contains("TenChucVu") ? doc["TenChucVu"].AsString : string.Empty,
+                    LuongCoBan = doc.Contains("LuongCoBan") ? doc["LuongCoBan"].AsDouble : 0.0
+                };
+                dsNhanVien.Add(nv);
+            }
+            return dsNhanVien;
+        }
     }
 }

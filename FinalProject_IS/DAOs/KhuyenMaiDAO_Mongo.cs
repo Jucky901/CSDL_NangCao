@@ -84,5 +84,29 @@ namespace FinalProject_IS.DAOs
             var update = Builders<KhuyenMai>.Update.Inc(k => k.SoLuong, -amount);
             col.UpdateOne(filter, update);
         }
+
+        public static List<KhuyenMai> DSKhuyenMaiByName(string name)
+        {
+            List<KhuyenMai> dsKhuyenMai = new List<KhuyenMai>();
+            var collection = MongoConnection.Database.GetCollection<BsonDocument>("KhuyenMai");
+            var filter = Builders<BsonDocument>.Filter.Regex("TenCTKM", new BsonRegularExpression(name, "i"));
+            var projection = Builders<BsonDocument>.Projection.Exclude("_id");
+            var documents = collection.Find(filter).Project(projection).ToList();
+            foreach (var doc in documents)
+            {
+                KhuyenMai km = new KhuyenMai
+                {
+                    MaKM = doc.Contains("MaKM") ? doc["MaKM"].AsInt32 : 0,
+                    TenCTKM = doc.Contains("TenCTKM") ? doc["TenCTKM"].AsString : string.Empty,
+                    GiaTriKhuyenMai = doc.Contains("GiaTriKhuyenMai") ? doc["GiaTriKhuyenMai"].AsDouble : 0.0,
+                    DieuKienKhuyenMai = doc.Contains("DieuKienKhuyenMai") ? doc["DieuKienKhuyenMai"].AsString : string.Empty,
+                    NgayBatDau = doc.Contains("NgayBatDau") ? doc["NgayBatDau"].ToUniversalTime() : DateTime.MinValue,
+                    NgayKetThuc = doc.Contains("NgayKetThuc") ? doc["NgayKetThuc"].ToUniversalTime() : DateTime.MinValue,
+                    SoLuong = doc.Contains("SoLuong") ? doc["SoLuong"].AsInt32 : 0
+                };
+                dsKhuyenMai.Add(km);
+            }
+            return dsKhuyenMai;
+        }
     }
 }

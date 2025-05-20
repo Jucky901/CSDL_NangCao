@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using FinalProject_IS.Model;
 using MongoDB.Bson;
 using MongoDB.Driver;
@@ -101,6 +102,31 @@ namespace FinalProject_IS.DAOs
             return _col
               .Find(l => l.MaLoaiKhachHang == maLoai)
               .FirstOrDefault();
+        }
+
+        public static List<KhachHang> DSKhachHangBySDT(string sdt) 
+        {
+            List<KhachHang> dsKhachHang = new List<KhachHang>();
+            // Get the "KhachHang" collection from the database
+            var collection = MongoConnection.Database.GetCollection<BsonDocument>("KhachHang");
+            // Fetch the document with the specified SoDienThoai
+            var filter = Builders<BsonDocument>.Filter.Eq("SoDienThoai", sdt);
+            var projection = Builders<BsonDocument>.Projection.Exclude("_id");
+            var documents = collection.Find(filter).Project(projection).ToList();
+            foreach (var doc in documents)
+            {
+                KhachHang kh = new KhachHang
+                {
+                    MaKH = doc.Contains("MaKH") ? doc["MaKH"].AsInt32 : 0,
+                    HoTen = doc.Contains("HoTen") ? doc["HoTen"].AsString : string.Empty,
+                    SoDienThoai = doc.Contains("SoDienThoai") ? doc["SoDienThoai"].AsString : string.Empty,
+                    TongChiTieu = doc.Contains("TongChiTieu") ? doc["TongChiTieu"].AsDouble : 0.0,
+                    NgayBatDau = doc.Contains("NgayBatDau") ? doc["NgayBatDau"].ToUniversalTime() : DateTime.MinValue,
+                    MaLoaiKH = doc.Contains("MaLoaiKH") ? doc["MaLoaiKH"].AsInt32 : 0
+                };
+                dsKhachHang.Add(kh);
+            }
+            return dsKhachHang;
         }
     }
 }

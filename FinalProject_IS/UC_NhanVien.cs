@@ -30,7 +30,16 @@ namespace FinalProject_IS
 
         private void btn_ThemNV_Click(object sender, EventArgs e)
         {
+            
+        }
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+            dtgvNhanVien.DataSource = NhanVienDAO_Mongo.DSNhanVienByName(richTextBox8.Text);
+            if (dtgvNhanVien.Columns["Id"] != null)
+            {
+                dtgvNhanVien.Columns["Id"].Visible = false;
+            }
         }
     }
 }

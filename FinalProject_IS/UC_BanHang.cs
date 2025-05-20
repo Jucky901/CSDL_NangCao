@@ -93,6 +93,7 @@ namespace FinalProject_IS
 
         private void txtMaSP_TextChanged(object sender, EventArgs e)
         {
+            
             if (txtMaSP.Text != "")
             {
                 sp = SanPhamDAO_Mongo.GetProductByID(Convert.ToInt32(txtMaSP.Text));

@@ -84,5 +84,14 @@ namespace FinalProject_IS
                 }
             }
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            dtgvKhuyenMai.DataSource = KhuyenMaiDAO_Mongo.DSKhuyenMaiByName(richTextBox8.Text);
+            if (dtgvKhuyenMai.Columns["Id"] != null)
+            {
+                dtgvKhuyenMai.Columns["Id"].Visible = false;
+            }
+        }
     }
 }

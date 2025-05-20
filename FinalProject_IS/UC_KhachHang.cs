@@ -27,5 +27,14 @@ namespace FinalProject_IS
                 dtgvKhachHang.Columns["Id"].Visible = false;
             }
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            dtgvKhachHang.DataSource = KhachHangDAO_Mongo.DSKhachHangBySDT(richTextBox8.Text);
+            if (dtgvKhachHang.Columns["Id"] != null)
+            {
+                dtgvKhachHang.Columns["Id"].Visible = false;
+            }
+        }
     }
 }
