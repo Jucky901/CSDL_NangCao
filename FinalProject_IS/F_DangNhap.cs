@@ -17,11 +17,11 @@ namespace FinalProject_IS
         public F_DangNhap()
         {
             InitializeComponent();
+            txt_MatKhau.UseSystemPasswordChar = true;
         }
 
         private void btn_XacNhan_Click(object sender, EventArgs e)
         {
-            F_Main form = new F_Main();
             string email = txt_MaNV.Text.Trim();
             int manv = -1;
 
@@ -32,24 +32,20 @@ namespace FinalProject_IS
 
             NhanVien nv = NhanVienDAO_Mongo.KiemTraDangNhap(email, manv);
 
+            F_Main form = new F_Main(this); // Truyền form hiện tại vào F_Main
+
             if (nv != null)
             {
                 form.manv = nv.MaNV;
                 form.tenNV = nv.HoTen;
+                form.maChucVu = (nv.TenChucVu != null && nv.TenChucVu.ToLower().Contains("manager")) ? 1 : 0;
 
-                if (nv.TenChucVu != null && nv.TenChucVu.ToLower().Contains("Manager"))
-                {
-                    form.maChucVu = 1;
-                }
-                else
-                {
-                    form.maChucVu = 0;
-                }
-
+                this.Hide(); // Ẩn form đăng nhập
                 form.Show();
             }
             else if (string.IsNullOrWhiteSpace(email) && manv == -1)
             {
+                this.Hide();
                 form.Show(); // chế độ không đăng nhập
             }
             else

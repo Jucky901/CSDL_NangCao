@@ -12,38 +12,43 @@ namespace FinalProject_IS
 {
     public partial class F_Main : Form
     {
-        private bool isBanHang = false;
-        private bool isDoanhThu = false;
-        private bool isKhachHang = false;
-        private bool isKho = false;
-        private bool isKhuyenMai = false;
-        private bool isPhieuNhan = false;
-        private bool isPhieuNhap = false;
-        private bool isNhanVien = false;
-        private bool isHoaDon = false;
-        private bool isDichVu = false;
+        private bool isLoggingOut = false;
         public UC_BanHang ucBanHang;
 
         public int manv;
         public string tenNV;
         public int maChucVu;
+
+        private Form loginForm;
         public F_Main()
         {
             InitializeComponent();
         }
+        public F_Main(Form loginForm)
+        {
+            InitializeComponent();
+            this.loginForm = loginForm;
+            this.FormClosing += F_Main_FormClosing;
+        }
+        private void F_Main_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (!isLoggingOut)
+            {
+                Application.Exit();
+            }
+        }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            ucBanHang = new UC_BanHang();
-            panel_Main.Controls.Add(ucBanHang);
-            panel_banHang.Dispose();
-            UC_BanHang uc = new UC_BanHang();
+            ucBanHang = new UC_BanHang(tenNV);
             ucBanHang.Location = new Point(0, 83);
             panel_Main.Controls.Add(ucBanHang);
+            ChangeTab(ucBanHang);
+
             btn_Name.Text = "Xin chào " + tenNV;
             ucBanHang.txt_TenNhanVien.Text = tenNV;
 
-            if (maChucVu == 1)
+            if (maChucVu != 1)
             {
                 btn_DoanhThu.Hide();
                 btn_KhuyenMai.Hide();
@@ -55,7 +60,7 @@ namespace FinalProject_IS
 
         private void btn_BanHang_Click(object sender, EventArgs e)
         {
-            ChangeTab(new UC_BanHang());
+            ChangeTab(ucBanHang);
         }
 
         private void btn_DoanhThu_Click(object sender, EventArgs e)
@@ -139,5 +144,12 @@ namespace FinalProject_IS
             FormHoaDonDichVu formPhieu = new FormHoaDonDichVu(tenNV, sdt, hoTen, danhSachDongDuocChon);
             formPhieu.Show();
         }
-}
+
+        private void btn_DangXuat_Click(object sender, EventArgs e)
+        {
+            isLoggingOut = true;
+            this.Close(); 
+            loginForm.Show(); 
+        }
+    }
 }

@@ -30,15 +30,15 @@ namespace FinalProject_IS
         public string SDT => txt_SDT.Text;
         public string HoTen => txt_HoTen.Text;
 
-        public UC_BanHang()
+        public UC_BanHang(string tenNV)
         {
             InitializeComponent();
             dtgvDSSanPham.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dtgvDSSanPham.MultiSelect = true;
             InitTempTable();// Chỉ chọn 1 hàng
             dtgvDSSanPham.CellClick += dtgvDSSanPham_CellClick;
+            txt_TenNhanVien.Text = tenNV;
         }
-
 
 
         private void txtSDT_TextChanged(object sender, EventArgs e)
