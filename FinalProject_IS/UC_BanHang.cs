@@ -58,7 +58,7 @@ namespace FinalProject_IS
                 if (loai != null)
                 {
                     // Hiển thị mức giảm tối đa (ví dụ "10%")
-                    lbl_GiamGia.Text = loai.GiamGiaToiDa.ToString("N0") + "%";
+                    lbl_GiamGia.Text = (loai.GiamGiaToiDa * 100).ToString("N0") + "%";
                 }
                 else
                 {
@@ -76,7 +76,7 @@ namespace FinalProject_IS
                     HoTen = txt_HoTen.Text,
                     SoDienThoai = txt_SDT.Text,
                     TongChiTieu = 0, // Có thể là null nếu không cần
-                    MaLoaiKH = 1,   // Có thể là null nếu không cần
+                    MaLoaiKH = 0,   // Có thể là null nếu không cần
                                     // Use this to get a short date string (no hour, minute, second)
                     NgayBatDau = DateTime.Now.Date
                 };
@@ -543,10 +543,9 @@ namespace FinalProject_IS
             }
 
         }
-        private KhuyenMai khuyenMaiDangApDung;   // Lưu thông tin mã giảm giá đang dùng
-        private double soTienGiamTuKM;
         private async void Btn_ApDungMaGiamGia_Click(object sender, EventArgs e)
         {
+
             // --- 1. Lấy danh sách sản phẩm hiện tại
             var products = dtgvDSSanPham.Rows
                 .Cast<DataGridViewRow>()
@@ -557,6 +556,12 @@ namespace FinalProject_IS
                 })
                 .Where(p => !string.IsNullOrEmpty(p.TenSP))
                 .ToList();
+
+            // --- DEBUG #1: kiểm tra products
+            MessageBox.Show(
+                $"[DEBUG] Products count = {products.Count}\n" +
+                string.Join("\n", products.Select(p => p.TenSP))
+            );
 
             if (!products.Any())
             {
@@ -574,11 +579,21 @@ namespace FinalProject_IS
                           && !string.IsNullOrWhiteSpace(km.DieuKienKhuyenMai))
                 .ToList();
 
+            // --- DEBUG #2: kiểm tra eligiblePromotions
+            MessageBox.Show(
+                $"[DEBUG] EligiblePromotions count = {eligiblePromotions.Count}\n" +
+                string.Join("\n", eligiblePromotions
+                    .Select(km => $"MaKM={km.MaKM}, DK='{km.DieuKienKhuyenMai}'"))
+            );
+
             // --- 3. Ghép products với Promotion: match TenSP.Contains(DieuKien)
             var matches = products
                 .SelectMany(p => eligiblePromotions
-                    .Where(km => p.TenSP
-                        .IndexOf(km.DieuKienKhuyenMai.Trim(), StringComparison.OrdinalIgnoreCase) >= 0)
+                    .Where(km =>
+                            !string.IsNullOrWhiteSpace(km.DieuKienKhuyenMai) &&
+                            p.TenSP
+                             .ToLower()
+                             .Contains(km.DieuKienKhuyenMai.Trim().ToLower()))
                     .Select(km => new ProductWithDiscount
                     {
                         TenSP = p.TenSP,
@@ -586,6 +601,13 @@ namespace FinalProject_IS
                         Promotion = km
                     }))
                 .ToList();
+
+            // --- DEBUG #3: kiểm tra matches
+            MessageBox.Show(
+                $"[DEBUG] Matches count = {matches.Count}\n" +
+                string.Join("\n", matches
+                    .Select(m => $"{m.TenSP} → KM#{m.Promotion.MaKM}"))
+            );
 
             if (!matches.Any())
             {
