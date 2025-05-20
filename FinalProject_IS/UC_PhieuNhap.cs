@@ -51,7 +51,6 @@ namespace FinalProject_IS
         {
             if (dtgvPhieuNhap.Columns[e.ColumnIndex].Name == "Action" && e.RowIndex >= 0)
             {
-                MessageBox.Show(dtgvPhieuNhap.Rows[e.RowIndex].Cells["MaPhieuNhap"].Value.ToString());
                 int idphieu = Convert.ToInt32(dtgvPhieuNhap.Rows[e.RowIndex].Cells["MaPhieuNhap"].Value);
                 F_ChiTietPhieuNhap form = new F_ChiTietPhieuNhap(idphieu);
                 form.Show();

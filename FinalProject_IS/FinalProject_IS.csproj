@@ -325,6 +325,9 @@
     <EmbeddedResource Include="F_Main.resx">
       <DependentUpon>F_Main.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="F_ThemPhieuNhanHang.resx">
+      <DependentUpon>F_ThemPhieuNhanHang.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="F_ThemPhieuNhapHang.resx">
       <DependentUpon>F_ThemPhieuNhapHang.cs</DependentUpon>
     </EmbeddedResource>

@@ -29,13 +29,12 @@
         private void InitializeComponent()
         {
             this.dtgv_ChiTiet = new System.Windows.Forms.DataGridView();
-            this.MaPhieuNhap = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btn_ThemPhieu = new System.Windows.Forms.Button();
+            this.btn_HuyPhieu = new System.Windows.Forms.Button();
             this.MaSP = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.TenSP = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.SoLuongNhap = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Action = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.btn_ThemPhieu = new System.Windows.Forms.Button();
-            this.btn_HuyPhieu = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dtgv_ChiTiet)).BeginInit();
             this.SuspendLayout();
             // 
@@ -44,7 +43,6 @@
             this.dtgv_ChiTiet.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dtgv_ChiTiet.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dtgv_ChiTiet.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.MaPhieuNhap,
             this.MaSP,
             this.TenSP,
             this.SoLuongNhap,
@@ -58,37 +56,6 @@
             this.dtgv_ChiTiet.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgv_ChiTiet_CellContentClick);
             this.dtgv_ChiTiet.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgv_ChiTiet_CellEndEdit);
             this.dtgv_ChiTiet.DefaultValuesNeeded += new System.Windows.Forms.DataGridViewRowEventHandler(this.dtgv_ChiTiet_DefaultValuesNeeded);
-            // 
-            // MaPhieuNhap
-            // 
-            this.MaPhieuNhap.HeaderText = "Mã phiếu";
-            this.MaPhieuNhap.MinimumWidth = 6;
-            this.MaPhieuNhap.Name = "MaPhieuNhap";
-            this.MaPhieuNhap.ReadOnly = true;
-            // 
-            // MaSP
-            // 
-            this.MaSP.HeaderText = "Mã Sản Phẩm";
-            this.MaSP.MinimumWidth = 6;
-            this.MaSP.Name = "MaSP";
-            // 
-            // TenSP
-            // 
-            this.TenSP.HeaderText = "Tên Sản Phẩm";
-            this.TenSP.MinimumWidth = 6;
-            this.TenSP.Name = "TenSP";
-            // 
-            // SoLuongNhap
-            // 
-            this.SoLuongNhap.HeaderText = "Số lượng";
-            this.SoLuongNhap.MinimumWidth = 6;
-            this.SoLuongNhap.Name = "SoLuongNhap";
-            // 
-            // Action
-            // 
-            this.Action.HeaderText = "Delete";
-            this.Action.MinimumWidth = 6;
-            this.Action.Name = "Action";
             // 
             // btn_ThemPhieu
             // 
@@ -120,7 +87,31 @@
             this.btn_HuyPhieu.UseVisualStyleBackColor = false;
             this.btn_HuyPhieu.Click += new System.EventHandler(this.btn_HuyPhieu_Click);
             // 
-            // Form2
+            // MaSP
+            // 
+            this.MaSP.HeaderText = "Mã Sản Phẩm";
+            this.MaSP.MinimumWidth = 6;
+            this.MaSP.Name = "MaSP";
+            // 
+            // TenSP
+            // 
+            this.TenSP.HeaderText = "Tên Sản Phẩm";
+            this.TenSP.MinimumWidth = 6;
+            this.TenSP.Name = "TenSP";
+            // 
+            // SoLuongNhap
+            // 
+            this.SoLuongNhap.HeaderText = "Số lượng";
+            this.SoLuongNhap.MinimumWidth = 6;
+            this.SoLuongNhap.Name = "SoLuongNhap";
+            // 
+            // Action
+            // 
+            this.Action.HeaderText = "Delete";
+            this.Action.MinimumWidth = 6;
+            this.Action.Name = "Action";
+            // 
+            // F_ThemPhieuNhapHang
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.White;
@@ -128,7 +119,7 @@
             this.Controls.Add(this.btn_HuyPhieu);
             this.Controls.Add(this.btn_ThemPhieu);
             this.Controls.Add(this.dtgv_ChiTiet);
-            this.Name = "Form2";
+            this.Name = "F_ThemPhieuNhapHang";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form2";
             ((System.ComponentModel.ISupportInitialize)(this.dtgv_ChiTiet)).EndInit();
@@ -139,12 +130,11 @@
         #endregion
 
         private System.Windows.Forms.DataGridView dtgv_ChiTiet;
-        private System.Windows.Forms.DataGridViewTextBoxColumn MaPhieuNhap;
+        private System.Windows.Forms.Button btn_ThemPhieu;
+        private System.Windows.Forms.Button btn_HuyPhieu;
         private System.Windows.Forms.DataGridViewTextBoxColumn MaSP;
         private System.Windows.Forms.DataGridViewTextBoxColumn TenSP;
         private System.Windows.Forms.DataGridViewTextBoxColumn SoLuongNhap;
         private System.Windows.Forms.DataGridViewButtonColumn Action;
-        private System.Windows.Forms.Button btn_ThemPhieu;
-        private System.Windows.Forms.Button btn_HuyPhieu;
     }
 }

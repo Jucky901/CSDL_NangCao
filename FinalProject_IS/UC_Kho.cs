@@ -29,5 +29,14 @@ namespace FinalProject_IS
                 dtgvKhoSP.Columns["Id"].Visible = false;
             }
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            dtgvKhoSP.DataSource = SanPhamDAO_Mongo.DSSanPhamByName(richTextBox8.Text);
+            if (dtgvKhoSP.Columns["Id"] != null)
+            {
+                dtgvKhoSP.Columns["Id"].Visible = false;
+            }
+        }
     }
 }

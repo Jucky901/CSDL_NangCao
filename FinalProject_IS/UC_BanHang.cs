@@ -557,12 +557,6 @@ namespace FinalProject_IS
                 .Where(p => !string.IsNullOrEmpty(p.TenSP))
                 .ToList();
 
-            // --- DEBUG #1: kiểm tra products
-            MessageBox.Show(
-                $"[DEBUG] Products count = {products.Count}\n" +
-                string.Join("\n", products.Select(p => p.TenSP))
-            );
-
             if (!products.Any())
             {
                 MessageBox.Show("Chưa có sản phẩm trong đơn!");
@@ -579,12 +573,6 @@ namespace FinalProject_IS
                           && !string.IsNullOrWhiteSpace(km.DieuKienKhuyenMai))
                 .ToList();
 
-            // --- DEBUG #2: kiểm tra eligiblePromotions
-            MessageBox.Show(
-                $"[DEBUG] EligiblePromotions count = {eligiblePromotions.Count}\n" +
-                string.Join("\n", eligiblePromotions
-                    .Select(km => $"MaKM={km.MaKM}, DK='{km.DieuKienKhuyenMai}'"))
-            );
 
             // --- 3. Ghép products với Promotion: match TenSP.Contains(DieuKien)
             var matches = products
@@ -601,13 +589,6 @@ namespace FinalProject_IS
                         Promotion = km
                     }))
                 .ToList();
-
-            // --- DEBUG #3: kiểm tra matches
-            MessageBox.Show(
-                $"[DEBUG] Matches count = {matches.Count}\n" +
-                string.Join("\n", matches
-                    .Select(m => $"{m.TenSP} → KM#{m.Promotion.MaKM}"))
-            );
 
             if (!matches.Any())
             {
