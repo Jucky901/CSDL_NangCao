@@ -27,9 +27,16 @@ namespace FinalProject_IS
         public int manv;
         public string tenNV;
         public int maChucVu;
+
+        private Form loginForm;
         public F_Main()
         {
             InitializeComponent();
+        }
+        public F_Main(Form loginForm)
+        {
+            InitializeComponent();
+            this.loginForm = loginForm;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -43,7 +50,7 @@ namespace FinalProject_IS
             btn_Name.Text = "Xin chào " + tenNV;
             ucBanHang.txt_TenNhanVien.Text = tenNV;
 
-            if (maChucVu == 1)
+            if (maChucVu != 1)
             {
                 btn_DoanhThu.Hide();
                 btn_KhuyenMai.Hide();
@@ -139,5 +146,11 @@ namespace FinalProject_IS
             FormHoaDonDichVu formPhieu = new FormHoaDonDichVu(tenNV, sdt, hoTen, danhSachDongDuocChon);
             formPhieu.Show();
         }
-}
+
+        private void btn_DangXuat_Click(object sender, EventArgs e)
+        {
+            this.Close(); // Đóng form chính
+            loginForm.Show();
+        }
+    }
 }

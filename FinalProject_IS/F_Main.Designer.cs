@@ -30,7 +30,7 @@
         {
             this.panel_taskBar = new System.Windows.Forms.Panel();
             this.btn_Name = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
+            this.btn_DangXuat = new System.Windows.Forms.Button();
             this.btn_ThemPhieuDanVot = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.panel_Main = new System.Windows.Forms.Panel();
@@ -46,7 +46,6 @@
             this.btn_PhieuNhap = new System.Windows.Forms.Button();
             this.btn_HoaDon = new System.Windows.Forms.Button();
             this.btn_DichVu = new System.Windows.Forms.Button();
-            this.button15 = new System.Windows.Forms.Button();
             this.panel_taskBar.SuspendLayout();
             this.panel_Main.SuspendLayout();
             this.fpanel_nav.SuspendLayout();
@@ -56,7 +55,7 @@
             // 
             this.panel_taskBar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(59)))), ((int)(((byte)(141)))), ((int)(((byte)(188)))));
             this.panel_taskBar.Controls.Add(this.btn_Name);
-            this.panel_taskBar.Controls.Add(this.button3);
+            this.panel_taskBar.Controls.Add(this.btn_DangXuat);
             this.panel_taskBar.Controls.Add(this.btn_ThemPhieuDanVot);
             this.panel_taskBar.Controls.Add(this.button1);
             this.panel_taskBar.Dock = System.Windows.Forms.DockStyle.Top;
@@ -80,19 +79,20 @@
             this.btn_Name.Text = "Xin chào [Name]";
             this.btn_Name.UseVisualStyleBackColor = false;
             // 
-            // button3
+            // btn_DangXuat
             // 
-            this.button3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(59)))), ((int)(((byte)(141)))), ((int)(((byte)(188)))));
-            this.button3.FlatAppearance.BorderSize = 0;
-            this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button3.ForeColor = System.Drawing.Color.White;
-            this.button3.Location = new System.Drawing.Point(746, 3);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(117, 54);
-            this.button3.TabIndex = 4;
-            this.button3.Text = "Đăng xuất";
-            this.button3.UseVisualStyleBackColor = false;
+            this.btn_DangXuat.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(59)))), ((int)(((byte)(141)))), ((int)(((byte)(188)))));
+            this.btn_DangXuat.FlatAppearance.BorderSize = 0;
+            this.btn_DangXuat.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_DangXuat.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_DangXuat.ForeColor = System.Drawing.Color.White;
+            this.btn_DangXuat.Location = new System.Drawing.Point(746, 3);
+            this.btn_DangXuat.Name = "btn_DangXuat";
+            this.btn_DangXuat.Size = new System.Drawing.Size(117, 54);
+            this.btn_DangXuat.TabIndex = 4;
+            this.btn_DangXuat.Text = "Đăng xuất";
+            this.btn_DangXuat.UseVisualStyleBackColor = false;
+            this.btn_DangXuat.Click += new System.EventHandler(this.btn_DangXuat_Click);
             // 
             // btn_ThemPhieuDanVot
             // 
@@ -156,7 +156,6 @@
             this.fpanel_nav.Controls.Add(this.btn_PhieuNhap);
             this.fpanel_nav.Controls.Add(this.btn_HoaDon);
             this.fpanel_nav.Controls.Add(this.btn_DichVu);
-            this.fpanel_nav.Controls.Add(this.button15);
             this.fpanel_nav.Dock = System.Windows.Forms.DockStyle.Top;
             this.fpanel_nav.Location = new System.Drawing.Point(0, 0);
             this.fpanel_nav.Name = "fpanel_nav";
@@ -294,18 +293,6 @@
             this.btn_DichVu.UseVisualStyleBackColor = true;
             this.btn_DichVu.Click += new System.EventHandler(this.btn_DichVu_Click);
             // 
-            // button15
-            // 
-            this.button15.FlatAppearance.BorderSize = 0;
-            this.button15.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(122)))), ((int)(((byte)(184)))));
-            this.button15.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button15.Location = new System.Drawing.Point(1064, 4);
-            this.button15.Name = "button15";
-            this.button15.Size = new System.Drawing.Size(100, 68);
-            this.button15.TabIndex = 10;
-            this.button15.Text = "XXXXXX";
-            this.button15.UseVisualStyleBackColor = true;
-            // 
             // F_Main
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -334,7 +321,7 @@
         private System.Windows.Forms.Panel panel_taskBar;
         private System.Windows.Forms.Panel panel_Main;
         private System.Windows.Forms.FlowLayoutPanel fpanel_nav;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button btn_DangXuat;
         private System.Windows.Forms.Button btn_ThemPhieuDanVot;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button btn_Name;
@@ -348,7 +335,6 @@
         private System.Windows.Forms.Button btn_PhieuNhap;
         private System.Windows.Forms.Button btn_HoaDon;
         private System.Windows.Forms.Button btn_DichVu;
-        private System.Windows.Forms.Button button15;
         private System.Windows.Forms.Panel panel_banHang;
     }
 }
