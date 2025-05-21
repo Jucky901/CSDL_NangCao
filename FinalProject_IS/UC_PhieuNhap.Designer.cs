@@ -34,8 +34,6 @@
             this.button3 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.dtgvPhieuNhap = new System.Windows.Forms.DataGridView();
-            this.btn_Search = new System.Windows.Forms.Button();
-            this.rtxb_SearchBox = new System.Windows.Forms.RichTextBox();
             this.button21 = new System.Windows.Forms.Button();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.label14 = new System.Windows.Forms.Label();
@@ -56,8 +54,6 @@
             this.panel2.Controls.Add(this.button3);
             this.panel2.Controls.Add(this.button2);
             this.panel2.Controls.Add(this.dtgvPhieuNhap);
-            this.panel2.Controls.Add(this.btn_Search);
-            this.panel2.Controls.Add(this.rtxb_SearchBox);
             this.panel2.Controls.Add(this.button21);
             this.panel2.Controls.Add(this.comboBox1);
             this.panel2.Controls.Add(this.label14);
@@ -74,9 +70,9 @@
             this.btn_ThemPhieu.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_ThemPhieu.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_ThemPhieu.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(188)))), ((int)(((byte)(238)))), ((int)(((byte)(246)))));
-            this.btn_ThemPhieu.Location = new System.Drawing.Point(888, 94);
+            this.btn_ThemPhieu.Location = new System.Drawing.Point(873, 28);
             this.btn_ThemPhieu.Name = "btn_ThemPhieu";
-            this.btn_ThemPhieu.Size = new System.Drawing.Size(205, 27);
+            this.btn_ThemPhieu.Size = new System.Drawing.Size(220, 42);
             this.btn_ThemPhieu.TabIndex = 46;
             this.btn_ThemPhieu.Text = "+Thêm phiếu nhập mới";
             this.btn_ThemPhieu.UseVisualStyleBackColor = false;
@@ -124,32 +120,6 @@
             this.dtgvPhieuNhap.Size = new System.Drawing.Size(1059, 424);
             this.dtgvPhieuNhap.TabIndex = 41;
             this.dtgvPhieuNhap.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgvPhieuNhap_CellContentClick);
-            // 
-            // btn_Search
-            // 
-            this.btn_Search.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(244)))), ((int)(((byte)(244)))));
-            this.btn_Search.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(222)))), ((int)(((byte)(222)))));
-            this.btn_Search.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_Search.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_Search.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(90)))), ((int)(((byte)(161)))), ((int)(((byte)(203)))));
-            this.btn_Search.Location = new System.Drawing.Point(960, 28);
-            this.btn_Search.Name = "btn_Search";
-            this.btn_Search.Size = new System.Drawing.Size(57, 35);
-            this.btn_Search.TabIndex = 40;
-            this.btn_Search.Text = "⌕";
-            this.btn_Search.UseVisualStyleBackColor = false;
-            this.btn_Search.Click += new System.EventHandler(this.btn_Search_Click);
-            // 
-            // rtxb_SearchBox
-            // 
-            this.rtxb_SearchBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(252)))), ((int)(((byte)(252)))));
-            this.rtxb_SearchBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.rtxb_SearchBox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(201)))), ((int)(((byte)(201)))), ((int)(((byte)(201)))));
-            this.rtxb_SearchBox.Location = new System.Drawing.Point(424, 28);
-            this.rtxb_SearchBox.Name = "rtxb_SearchBox";
-            this.rtxb_SearchBox.Size = new System.Drawing.Size(530, 35);
-            this.rtxb_SearchBox.TabIndex = 39;
-            this.rtxb_SearchBox.Text = "Nhập mã phiếu nhập";
             // 
             // button21
             // 
@@ -234,8 +204,6 @@
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.DataGridView dtgvPhieuNhap;
-        private System.Windows.Forms.Button btn_Search;
-        private System.Windows.Forms.RichTextBox rtxb_SearchBox;
         private System.Windows.Forms.Button button21;
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.Label label14;
