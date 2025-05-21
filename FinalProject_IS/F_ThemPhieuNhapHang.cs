@@ -79,9 +79,9 @@ namespace FinalProject_IS
 
         private void dtgv_ChiTiet_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.ColumnIndex == 1)
+            if (e.ColumnIndex == 0)
             {
-                DataGridViewCell thirdCell = dtgv_ChiTiet[2, e.RowIndex];
+                DataGridViewCell thirdCell = dtgv_ChiTiet[1, e.RowIndex];
                 int id = Convert.ToInt32(dtgv_ChiTiet[e.ColumnIndex, e.RowIndex].Value);
                 thirdCell.Value = SanPhamDAO_Mongo.GetProductByID(id).TenSP;
             }

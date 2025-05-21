@@ -99,21 +99,21 @@ namespace FinalProject_IS
 
         private void dtgv_ChiTiet_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.ColumnIndex == 2)
+            if (e.ColumnIndex == 1)
             {
-                int id = Convert.ToInt32(dtgv_ChiTiet[2, e.RowIndex].Value);
+                int id = Convert.ToInt32(dtgv_ChiTiet[1, e.RowIndex].Value);
                 SanPham prod = SanPhamDAO_Mongo.GetProductByID(id);
-                dtgv_ChiTiet[3, e.RowIndex].Value = prod.TenSP;
-                dtgv_ChiTiet[4, e.RowIndex].Value = prod.LoaiSP;
-                dtgv_ChiTiet[6, e.RowIndex].Value = prod.GiaGoc.ToString();
-                dtgv_ChiTiet[7, e.RowIndex].Value = prod.ThuongHieu;
-                dtgv_ChiTiet[8, e.RowIndex].Value = prod.ThoiGianBaoHanh.ToString();
-                dtgv_ChiTiet[9, e.RowIndex].Value = prod.MoTa;
+                dtgv_ChiTiet[2, e.RowIndex].Value = prod.TenSP;
+                dtgv_ChiTiet[3, e.RowIndex].Value = prod.LoaiSP;
+                dtgv_ChiTiet[5, e.RowIndex].Value = prod.GiaGoc.ToString();
+                dtgv_ChiTiet[6, e.RowIndex].Value = prod.ThuongHieu;
+                dtgv_ChiTiet[7, e.RowIndex].Value = prod.ThoiGianBaoHanh.ToString();
+                dtgv_ChiTiet[8, e.RowIndex].Value = prod.MoTa;
             }
-            if (e.ColumnIndex == 5)
+            if (e.ColumnIndex == 4)
             {
-                dtgv_ChiTiet[10, e.RowIndex].Value =
-                    (Convert.ToInt32(dtgv_ChiTiet[5, e.RowIndex].Value) * Convert.ToDecimal(dtgv_ChiTiet[6, e.RowIndex].Value)).ToString();
+                dtgv_ChiTiet[9, e.RowIndex].Value =
+                    (Convert.ToInt32(dtgv_ChiTiet[4, e.RowIndex].Value) * Convert.ToDecimal(dtgv_ChiTiet[5, e.RowIndex].Value)).ToString();
             }
         }
     }
