@@ -25,11 +25,6 @@ namespace FinalProject_IS
         {
             dtgvPhieuNhan.DataSource = PhieuNhanHangDAO_Mongo.DSPhieuNhan();
             DataGridViewButtonColumn btnColumn = new DataGridViewButtonColumn();
-            btnColumn.Name = "Action";
-            btnColumn.HeaderText = "Action";
-            btnColumn.Text = "View";
-            btnColumn.UseColumnTextForButtonValue = true;
-
             dtgvPhieuNhan.Columns.Add(btnColumn);
             if (dtgvPhieuNhan.Columns["Id"] != null)
             {
