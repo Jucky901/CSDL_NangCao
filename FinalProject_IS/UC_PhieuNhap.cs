@@ -23,10 +23,10 @@ namespace FinalProject_IS
         {
             dtgvPhieuNhap.DataSource = PhieuNhapHangDAO_Mongo.DSPhieuNhap();
             DataGridViewButtonColumn btnColumn = new DataGridViewButtonColumn();
-            btnColumn.Name = "Action";               
-            btnColumn.HeaderText = "Action";         
-            btnColumn.Text = "View";                 
-            btnColumn.UseColumnTextForButtonValue = true; 
+            btnColumn.Name = "Action";
+            btnColumn.HeaderText = "Action";
+            btnColumn.Text = "View";
+            btnColumn.UseColumnTextForButtonValue = true;
 
             dtgvPhieuNhap.Columns.Add(btnColumn);
             if (dtgvPhieuNhap.Columns["Id"] != null)
@@ -55,6 +55,25 @@ namespace FinalProject_IS
                 F_ChiTietPhieuNhap form = new F_ChiTietPhieuNhap(idphieu);
                 form.Show();
 
+            }
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (comboBox1.SelectedIndex == 0)
+            {
+                dtgvPhieuNhap.DataSource = PhieuNhapHangDAO_Mongo.DSPhieuNhapHangOrderbyMaPhieuNhap();
+                DataGridViewButtonColumn btnColumn = new DataGridViewButtonColumn();
+                btnColumn.Name = "Action";
+                btnColumn.HeaderText = "Action";
+                btnColumn.Text = "View";
+                btnColumn.UseColumnTextForButtonValue = true;
+
+                dtgvPhieuNhap.Columns.Add(btnColumn);
+                if (dtgvPhieuNhap.Columns["Id"] != null)
+                {
+                    dtgvPhieuNhap.Columns["Id"].Visible = false;
+                }
             }
         }
     }

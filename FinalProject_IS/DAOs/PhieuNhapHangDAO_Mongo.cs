@@ -145,5 +145,13 @@ namespace FinalProject_IS.DAOs
                 }
             }
         }
+
+        public static List<PhieuNhapHang> DSPhieuNhapHangOrderbyMaPhieuNhap()
+        {
+            var collection = MongoConnection.Database.GetCollection<PhieuNhapHang>("PhieuNhapHang");
+            var filter = Builders<PhieuNhapHang>.Filter.Empty;
+            var sort = Builders<PhieuNhapHang>.Sort.Ascending("MaPhieuNhap");
+            return collection.Find(filter).Sort(sort).ToList();
+        }
     }
 }

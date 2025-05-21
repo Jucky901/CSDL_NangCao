@@ -180,6 +180,7 @@
             this.comboBox1.Size = new System.Drawing.Size(177, 26);
             this.comboBox1.TabIndex = 22;
             this.comboBox1.Text = "Lọc theo tên mã";
+            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // label14
             // 

@@ -155,12 +155,13 @@
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.Items.AddRange(new object[] {
             "Lọc theo tên",
-            "Lọc theo giá"});
+            "Lọc theo sđt"});
             this.comboBox1.Location = new System.Drawing.Point(29, 28);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(177, 26);
             this.comboBox1.TabIndex = 22;
             this.comboBox1.Text = "Lọc theo tên";
+            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // label14
             // 
